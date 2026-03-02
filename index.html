@@ -982,6 +982,7 @@
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
   <img id="lightbox-img" src="" alt="Certificate">
+  <iframe id="lightbox-pdf" src="" style="display:none;width:85vw;height:85vh;border:1px solid rgba(0,220,180,0.2);background:#fff;"></iframe>
 </div>
 
 <!-- NAV -->
@@ -1045,8 +1046,7 @@
           <polygon points="140,35 225,82 225,178 140,225 55,178 55,82" fill="none" stroke="rgba(0,220,180,0.15)" stroke-width="1" stroke-dasharray="4,8"/>
         </svg>
         <div class="avatar-inner">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="rgba(0,220,180,0.6)" stroke="none"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-          <div class="avatar-inner-label">Admin User Image</div>
+          <img src="admin-image.png" alt="Arriane Doris Nuevo" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
         </div>
       </div>
       <div class="avatar-ring"></div>
@@ -1074,7 +1074,7 @@
       </div>
       <div>
         <div class="info-lbl">Birthday</div>
-        <div class="info-val">[ Your Birthday Here ]</div>
+        <div class="info-val">[ April 15, 1993 ]</div>
       </div>
     </div>
     <div class="info-cell">
@@ -1083,7 +1083,7 @@
       </div>
       <div>
         <div class="info-lbl">Address</div>
-        <div class="info-val">[ Your Address Here ]</div>
+        <div class="info-val">[ Canelar, Zamboanga Citu, Zamboanga del Sur, Philippines ]</div>
       </div>
     </div>
     <div class="info-cell">
@@ -1092,7 +1092,7 @@
       </div>
       <div>
         <div class="info-lbl">Phone Number</div>
-        <div class="info-val">[ Your Phone Number Here ]</div>
+        <div class="info-val">[ +63 917 106 3504 ]</div>
       </div>
     </div>
     <div class="info-cell">
@@ -1101,7 +1101,7 @@
       </div>
       <div>
         <div class="info-lbl">Email Address</div>
-        <div class="info-val">[ Your Email Address Here ]</div>
+        <div class="info-val">[ arrianedoris.ln@gmail.com ]</div>
       </div>
     </div>
   </div>
@@ -1147,15 +1147,13 @@
   <h2>Certifications</h2>
   <div class="cert-grid" id="certGrid">
 
-    <!-- CERT CARD TEMPLATE × 6 -->
+    <!-- CERT CARD 1 -->
     <div class="cert-card">
-      <div class="cert-img-area">
-        <img src="" alt="Certificate Image">
-        <div class="cert-scan-line"></div>
-        <div class="cert-upload-placeholder">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          <span>Upload Image</span>
-        </div>
+      <div class="cert-img-area" style="height:180px;cursor:pointer;" onclick="openLightbox('c1.pdf')">
+        <object data="c1.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf" style="width:100%;height:100%;pointer-events:none;">
+          <img src="c1.pdf" alt="Certificate" style="width:100%;height:100%;object-fit:cover;">
+        </object>
+        <div style="position:absolute;bottom:0.5rem;right:0.6rem;font-family:var(--mono);font-size:0.55rem;letter-spacing:0.1em;color:var(--cyan);background:rgba(8,12,16,0.75);padding:0.2rem 0.5rem;border-radius:2px;">click to enlarge</div>
       </div>
       <div class="cert-body">
         <div class="cert-name">[ Certification Name ]</div>
@@ -1387,7 +1385,7 @@
     <div class="footer-name">Arriane Doris Nuevo</div>
     <div class="footer-sub">// freelancer · business owner · web designer · developer</div>
   </div>
-  <div class="footer-copy">© 2025 Arriane Doris Nuevo</div>
+  <div class="footer-copy">© 2026 Arriane Doris Nuevo</div>
 </footer>
 
 <script>
@@ -1419,12 +1417,24 @@
 
   // LIGHTBOX
   function openLightbox(src) {
-    document.getElementById('lightbox-img').src = src;
-    document.getElementById('lightbox').classList.add('open');
+    const lb = document.getElementById('lightbox');
+    const img = document.getElementById('lightbox-img');
+    const pdfFrame = document.getElementById('lightbox-pdf');
+    if (src.endsWith('.pdf')) {
+      img.style.display = 'none';
+      pdfFrame.src = src + '#toolbar=0&navpanes=0';
+      pdfFrame.style.display = 'block';
+    } else {
+      pdfFrame.style.display = 'none';
+      img.src = src;
+      img.style.display = 'block';
+    }
+    lb.classList.add('open');
   }
 
   function closeLightbox() {
     document.getElementById('lightbox').classList.remove('open');
+    document.getElementById('lightbox-pdf').src = '';
   }
 
   document.getElementById('lightbox').addEventListener('click', function(e) {
