@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Certificate — Arriane Doris Nuevo</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@300;400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
   :root {
     --bg:      #080C10;
@@ -121,43 +122,44 @@
   .cert-meta-item { display:flex; align-items:center; gap:0.4rem; }
   .cert-meta-dot { width:4px; height:4px; background:var(--cyan); border-radius:50%; }
 
-  /* PDF embed area */
+  /* PDF canvas area */
   .cert-embed-wrap {
     flex:1; background:var(--surface);
     border:1px solid var(--border); position:relative;
-    overflow:hidden; min-height:600px;
+    overflow:hidden; min-height:520px;
+    display:flex; align-items:center; justify-content:center;
   }
   .cert-embed-wrap::before {
     content:''; position:absolute; top:0; left:0; right:0;
     height:2px; background:linear-gradient(90deg,transparent,var(--cyan),transparent);
-    opacity:0.6; z-index:2;
+    opacity:0.6; z-index:2; pointer-events:none;
   }
-  /* Corner brackets */
   .cert-embed-wrap::after {
     content:''; position:absolute; bottom:0; right:0;
     width:20px; height:20px;
     border-right:1px solid var(--cyan); border-bottom:1px solid var(--cyan);
-    opacity:0.4; z-index:2;
+    opacity:0.4; z-index:2; pointer-events:none;
   }
   .corner-tl {
     position:absolute; top:0; left:0; width:20px; height:20px;
     border-left:1px solid var(--cyan); border-top:1px solid var(--cyan);
     opacity:0.4; z-index:2; pointer-events:none;
   }
-
-  .cert-pdf-frame {
-    width:100%; height:100%; min-height:600px;
-    border:none; display:block; background:#fff;
+  #cert-canvas {
+    display:block; max-width:100%; max-height:80vh;
+    box-shadow:0 4px 40px rgba(0,0,0,0.5);
   }
-
-  /* PDF fallback */
-  .cert-pdf-fallback {
-    width:100%; height:100%; min-height:600px;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    gap:1.2rem; padding:3rem;
+  .cv-loading {
+    display:flex; flex-direction:column; align-items:center; gap:1rem;
+    font-family:'JetBrains Mono',monospace; font-size:0.62rem;
+    letter-spacing:0.15em; text-transform:uppercase; color:rgba(0,220,180,0.6);
   }
-  .cert-pdf-fallback svg { stroke:var(--cyan); opacity:0.4; }
-  .cert-pdf-fallback p { font-family:var(--mono); font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); text-align:center; }
+  .cv-spinner {
+    width:36px; height:36px; border:2px solid rgba(0,220,180,0.12);
+    border-top-color:#00DCB4; border-radius:50%;
+    animation:spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform:rotate(360deg); } }
 
   /* Action bar */
   .cert-actions {
@@ -224,166 +226,161 @@
 </footer>
 
 <script>
-// ─── Certificate Registry ──────────────────────────────────────────────────
-const CERTS = {
-  'google-ads-program-progress-bar': {
-    title:  'Program a Progress Bar',
-    org:    'Google Applied Digital Skills',
-    date:   'March 8, 2025',
-    pdf:    'google-ads-program-progress-bar.pdf',
-    extUrl: null,
-  },
-  'google-ads-research-develop-topic': {
-    title:  'Research and Develop a Topic',
-    org:    'Google Applied Digital Skills',
-    date:   'March 2, 2025',
-    pdf:    'google-ads-research-develop-topic.pdf',
-    extUrl: null,
-  },
-  'google-ads-prepare-business-plan': {
-    title:  'Prepare Your Business Plan',
-    org:    'Google Applied Digital Skills',
-    date:   'March 2, 2025',
-    pdf:    'google-ads-prepare-business-plan.pdf',
-    extUrl: null,
-  },
-  'google-ads-estimate-financing': {
-    title:  'Estimate Financing for Your Business Plan',
-    org:    'Google Applied Digital Skills',
-    date:   'February 28, 2025',
-    pdf:    'google-ads-estimate-financing.pdf',
-    extUrl: null,
-  },
-  'google-ads-build-online-business': {
-    title:  'Build Your Online Business',
-    org:    'Google Applied Digital Skills',
-    date:   'February 28, 2025',
-    pdf:    'google-ads-build-online-business.pdf',
-    extUrl: null,
-  },
-  'google-ads-discover-ai-daily-life': {
-    title:  'Discover AI in Daily Life',
-    org:    'Google Applied Digital Skills',
-    date:   'February 27, 2025',
-    pdf:    'google-ads-discover-ai-daily-life.pdf',
-    extUrl: null,
-  },
-  'dict-image-editing-open-source': {
-    title:  'Image Editing Using Open-Source Software',
-    org:    'Department of Information and Communications Technology, RO IX',
-    date:   'May 7–9, 2019',
-    pdf:    'dict-image-editing-open-source.pdf',
-    extUrl: null,
-  },
-  'tesda-english-proficiency': {
-    title:  'English Proficiency',
-    org:    'Technical Education and Skills Development Authority',
-    date:   'December 8–22, 2014',
-    pdf:    'tesda-english-proficiency.pdf',
-    extUrl: null,
-  },
-};
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-// ─── Render ────────────────────────────────────────────────────────────────
-(function () {
-  const params = new URLSearchParams(window.location.search);
-  const id     = params.get('id');
-  const main   = document.getElementById('main');
-  const cert   = id ? CERTS[id] : null;
+  // ─── Certificate Registry ────────────────────────────────────────────────
+  const CERTS = {
+    'google-ads-program-progress-bar': {
+      title:  'Program a Progress Bar',
+      org:    'Google Applied Digital Skills',
+      date:   'March 8, 2025',
+      pdf:    'google-ads-program-progress-bar.pdf',
+    },
+    'google-ads-research-develop-topic': {
+      title:  'Research and Develop a Topic',
+      org:    'Google Applied Digital Skills',
+      date:   'March 2, 2025',
+      pdf:    'google-ads-research-develop-topic.pdf',
+    },
+    'google-ads-prepare-business-plan': {
+      title:  'Prepare Your Business Plan',
+      org:    'Google Applied Digital Skills',
+      date:   'March 2, 2025',
+      pdf:    'google-ads-prepare-business-plan.pdf',
+    },
+    'google-ads-estimate-financing': {
+      title:  'Estimate Financing for Your Business Plan',
+      org:    'Google Applied Digital Skills',
+      date:   'February 28, 2025',
+      pdf:    'google-ads-estimate-financing.pdf',
+    },
+    'google-ads-build-online-business': {
+      title:  'Build Your Online Business',
+      org:    'Google Applied Digital Skills',
+      date:   'February 28, 2025',
+      pdf:    'google-ads-build-online-business.pdf',
+    },
+    'google-ads-discover-ai-daily-life': {
+      title:  'Discover AI in Daily Life',
+      org:    'Google Applied Digital Skills',
+      date:   'February 27, 2025',
+      pdf:    'google-ads-discover-ai-daily-life.pdf',
+    },
+    'dict-image-editing-open-source': {
+      title:  'Image Editing Using Open-Source Software',
+      org:    'DICT RO IX',
+      date:   'May 7–9, 2019',
+      pdf:    'dict-image-editing-open-source.pdf',
+    },
+    'tesda-english-proficiency': {
+      title:  'English Proficiency',
+      org:    'TESDA',
+      date:   'December 8–22, 2014',
+      pdf:    'tesda-english-proficiency.pdf',
+    },
+  };
 
-  // Update page title
-  if (cert) document.title = cert.title + ' — Arriane Doris Nuevo';
-
-  if (!cert) {
-    main.innerHTML = `
-      <div class="not-found">
-        <div class="not-found-code">404</div>
-        <div class="not-found-msg">Certificate not found</div>
-        <a href="index.html#certifications" style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--cyan);text-decoration:none;margin-top:1rem;border:1px solid var(--cyan);padding:0.45rem 1rem;border-radius:2px;">← Back to Certifications</a>
-      </div>`;
-    return;
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  const pdfSrc   = cert.pdf;
-  const shareUrl = window.location.href;
+  function copyLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      const btn = document.querySelector('[onclick="copyLink()"]');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '✓ Copied!';
+      btn.style.color = 'var(--cyan)'; btn.style.borderColor = 'var(--cyan)';
+      setTimeout(() => { btn.innerHTML = orig; btn.style.color=''; btn.style.borderColor=''; }, 2000);
+    });
+  }
 
-  main.innerHTML = `
-    <div class="cert-viewer">
+  // ─── Render ──────────────────────────────────────────────────────────────
+  (async function() {
+    const params = new URLSearchParams(window.location.search);
+    const id     = params.get('id');
+    const main   = document.getElementById('main');
+    const cert   = id ? CERTS[id] : null;
 
-      <div class="breadcrumb">
-        <a href="index.html">Portfolio</a>
-        <span>//</span>
-        <a href="index.html#certifications">Certifications</a>
-        <span>//</span>
-        <span style="color:var(--text-mid)">${escHtml(cert.title)}</span>
-      </div>
+    if (cert) document.title = cert.title + ' — Arriane Doris Nuevo';
 
-      <div class="cert-header">
-        <div class="cert-org-label">${escHtml(cert.org)}</div>
-        <div class="cert-title">${escHtml(cert.title)}</div>
-        <div class="cert-meta">
-          <div class="cert-meta-item">
-            <div class="cert-meta-dot"></div>
-            <span>${escHtml(cert.date)}</span>
-          </div>
-          <div class="cert-meta-item">
-            <div class="cert-meta-dot"></div>
-            <span>ID // ${escHtml(id)}</span>
+    if (!cert) {
+      main.innerHTML = `
+        <div class="not-found">
+          <div class="not-found-code">404</div>
+          <div class="not-found-msg">Certificate not found</div>
+          <a href="index.html#certifications" style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--cyan);text-decoration:none;margin-top:1rem;border:1px solid var(--cyan);padding:0.45rem 1rem;border-radius:2px;">← Back to Certifications</a>
+        </div>`;
+      return;
+    }
+
+    main.innerHTML = `
+      <div class="cert-viewer">
+        <div class="breadcrumb">
+          <a href="index.html">Portfolio</a>
+          <span>//</span>
+          <a href="index.html#certifications">Certifications</a>
+          <span>//</span>
+          <span style="color:var(--text-mid)">${escHtml(cert.title)}</span>
+        </div>
+        <div class="cert-header">
+          <div class="cert-org-label">${escHtml(cert.org)}</div>
+          <div class="cert-title">${escHtml(cert.title)}</div>
+          <div class="cert-meta">
+            <div class="cert-meta-item"><div class="cert-meta-dot"></div><span>${escHtml(cert.date)}</span></div>
+            <div class="cert-meta-item"><div class="cert-meta-dot"></div><span>ID // ${escHtml(id)}</span></div>
           </div>
         </div>
-      </div>
+        <div class="cert-embed-wrap" id="embedWrap">
+          <div class="corner-tl"></div>
+          <div class="cv-loading" id="cvLoading">
+            <div class="cv-spinner"></div>
+            <span>Rendering certificate...</span>
+          </div>
+          <canvas id="cert-canvas" style="display:none;"></canvas>
+        </div>
+        <div class="cert-actions">
+          <a class="cert-action-btn cert-action-secondary" href="${cert.pdf}" target="_blank" rel="noopener">
+            &#x2197; Open PDF
+          </a>
+          <button class="cert-action-btn cert-action-ghost" onclick="copyLink()">
+            &#x29C9; Copy Link
+          </button>
+          <a class="cert-action-btn cert-action-ghost" href="index.html#certifications">
+            ← All Certifications
+          </a>
+        </div>
+      </div>`;
 
-      <div class="cert-embed-wrap" id="embedWrap">
-        <div class="corner-tl"></div>
-        <iframe
-          class="cert-pdf-frame"
-          id="pdfFrame"
-          src="${pdfSrc}#toolbar=0&navpanes=0&view=FitH"
-          title="${escHtml(cert.title)}"
-          loading="lazy"
-        ></iframe>
-      </div>
+    // Render PDF to canvas
+    const canvas  = document.getElementById('cert-canvas');
+    const loading = document.getElementById('cvLoading');
 
-      <div class="cert-actions">
-        <a class="cert-action-btn cert-action-primary" href="${pdfSrc}" download>
-          ↓ Download PDF
-        </a>
-        <a class="cert-action-btn cert-action-secondary" href="${pdfSrc}" target="_blank" rel="noopener">
-          &#x2197; Open PDF
-        </a>
-        <button class="cert-action-btn cert-action-ghost" onclick="copyLink()">
-          &#x29C9; Copy Link
-        </button>
-        <a class="cert-action-btn cert-action-ghost" href="index.html#certifications">
-          ← All Certifications
-        </a>
-      </div>
-
-    </div>`;
-})();
-
-function escHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function copyLink() {
-  navigator.clipboard.writeText(window.location.href).then(() => {
-    const btn = document.querySelector('[onclick="copyLink()"]');
-    const orig = btn.textContent;
-    btn.textContent = '✓ Copied!';
-    btn.style.color = 'var(--cyan)';
-    btn.style.borderColor = 'var(--cyan)';
-    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; btn.style.borderColor = ''; }, 2000);
-  }).catch(() => {
-    // Fallback for older browsers
-    const ta = document.createElement('textarea');
-    ta.value = window.location.href;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-  });
-}
+    try {
+      const pdf      = await pdfjsLib.getDocument(cert.pdf).promise;
+      const page     = await pdf.getPage(1);
+      const vp0      = page.getViewport({ scale: 1 });
+      const dpr      = Math.min(window.devicePixelRatio || 1, 2);
+      const maxW     = (window.innerWidth  * 0.88) * dpr;
+      const maxH     = (window.innerHeight * 0.72) * dpr;
+      const scale    = Math.min(maxW / vp0.width, maxH / vp0.height);
+      const viewport = page.getViewport({ scale });
+      canvas.width   = viewport.width;
+      canvas.height  = viewport.height;
+      // Display size (CSS pixels)
+      const dispW = viewport.width  / dpr;
+      const dispH = viewport.height / dpr;
+      canvas.style.width  = Math.min(dispW, window.innerWidth * 0.88) + 'px';
+      canvas.style.height = 'auto';
+      await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+      loading.style.display = 'none';
+      canvas.style.display  = 'block';
+    } catch(e) {
+      loading.innerHTML = `<span style="color:rgba(0,220,180,0.5);font-size:0.6rem;font-family:var(--mono);letter-spacing:0.1em;">Could not render PDF.<br>Try opening the PDF directly.</span>`;
+      console.error(e);
+    }
+  })();
 </script>
+
 </body>
 </html>
