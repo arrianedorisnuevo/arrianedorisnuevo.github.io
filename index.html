@@ -59,6 +59,7 @@
     background:rgba(8,12,16,0.85);
     backdrop-filter:blur(20px);
     border-bottom:1px solid var(--border);
+    transition: padding 0.3s;
   }
   .nav-logo { display:flex; align-items:center; gap:0.75rem; }
   .nav-logo-mark {
@@ -79,6 +80,152 @@
   }
   .nav-links a::before { content:attr(data-num); color:var(--cyan); font-size:0.55rem; }
   .nav-links a:hover { color:var(--cyan); }
+
+  /* HAMBURGER BUTTON */
+  .nav-hamburger {
+    display:none;
+    flex-direction:column; justify-content:center; align-items:center;
+    width:40px; height:40px; cursor:pointer;
+    background:var(--surface); border:1px solid var(--border);
+    position:relative; z-index:210; flex-shrink:0;
+    transition:border-color 0.3s, background 0.3s;
+  }
+  .nav-hamburger:hover { border-color:var(--cyan); background:var(--cyan-dim); }
+  .nav-hamburger.open { border-color:var(--cyan); background:var(--cyan-dim); }
+
+  /* Three-line stack with digital scanline look */
+  .hbg-lines { display:flex; flex-direction:column; gap:5px; width:18px; }
+  .hbg-line {
+    height:1.5px; background:var(--cyan);
+    transform-origin:center;
+    transition:transform 0.35s cubic-bezier(0.23,1,0.32,1),
+                opacity   0.25s ease,
+                width     0.3s ease;
+  }
+  .hbg-line:nth-child(2) { width:12px; align-self:flex-end; }
+  .hbg-line:nth-child(3) { width:16px; }
+
+  /* Glitch flash on the button when open */
+  .nav-hamburger.open .hbg-line:nth-child(1) { transform:translateY(6.5px) rotate(45deg); width:18px; }
+  .nav-hamburger.open .hbg-line:nth-child(2) { opacity:0; transform:scaleX(0); }
+  .nav-hamburger.open .hbg-line:nth-child(3) { transform:translateY(-6.5px) rotate(-45deg); width:18px; }
+
+  /* Corner decorators on hamburger */
+  .nav-hamburger::before, .nav-hamburger::after {
+    content:''; position:absolute; width:6px; height:6px;
+    border-color:var(--cyan); border-style:solid; opacity:0.5;
+    transition:opacity 0.3s;
+  }
+  .nav-hamburger::before { top:3px; left:3px; border-width:1px 0 0 1px; }
+  .nav-hamburger::after  { bottom:3px; right:3px; border-width:0 1px 1px 0; }
+  .nav-hamburger:hover::before, .nav-hamburger:hover::after,
+  .nav-hamburger.open::before,  .nav-hamburger.open::after { opacity:1; }
+
+  /* MOBILE DROPDOWN MENU */
+  .nav-mobile-menu {
+    display:none;
+    position:fixed; top:0; left:0; right:0; bottom:0;
+    z-index:205;
+    background:rgba(8,12,16,0.97);
+    backdrop-filter:blur(24px);
+    flex-direction:column;
+    padding-top:80px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.35s ease;
+    /* scanline bg texture */
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0,220,180,0.015) 3px,
+        rgba(0,220,180,0.015) 4px
+      );
+  }
+  .nav-mobile-menu.open {
+    opacity:1;
+    pointer-events:all;
+  }
+
+  /* Decorative top border glow on mobile menu */
+  .nav-mobile-menu::before {
+    content:''; position:absolute; top:0; left:0; right:0;
+    height:1px;
+    background:linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity:0.6;
+  }
+
+  /* Mobile menu inner scroll container */
+  .nav-mobile-inner {
+    flex:1; overflow-y:auto;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:2rem 2.5rem;
+    gap:0;
+  }
+
+  /* Each mobile link row */
+  .nav-mobile-item {
+    display:flex; align-items:center; gap:1.2rem;
+    padding:1.1rem 0;
+    border-bottom:1px solid var(--border2);
+    text-decoration:none;
+    opacity:0; transform:translateX(-16px);
+    transition:opacity 0.4s ease, transform 0.4s ease, background 0.2s;
+    position:relative; overflow:hidden;
+  }
+  .nav-mobile-item::after {
+    content:''; position:absolute; left:0; top:0; bottom:0;
+    width:2px; background:var(--cyan);
+    transform:scaleY(0); transform-origin:bottom;
+    transition:transform 0.3s ease;
+  }
+  .nav-mobile-item:hover::after { transform:scaleY(1); }
+  .nav-mobile-item:hover .nav-mobile-label { color:var(--cyan); }
+  .nav-mobile-item:first-child { border-top:1px solid var(--border2); }
+
+  /* Staggered entrance when menu opens */
+  .nav-mobile-menu.open .nav-mobile-item { opacity:1; transform:translateX(0); }
+  .nav-mobile-menu.open .nav-mobile-item:nth-child(1){transition-delay:0.05s}
+  .nav-mobile-menu.open .nav-mobile-item:nth-child(2){transition-delay:0.10s}
+  .nav-mobile-menu.open .nav-mobile-item:nth-child(3){transition-delay:0.15s}
+  .nav-mobile-menu.open .nav-mobile-item:nth-child(4){transition-delay:0.20s}
+  .nav-mobile-menu.open .nav-mobile-item:nth-child(5){transition-delay:0.25s}
+  .nav-mobile-menu.open .nav-mobile-item:nth-child(6){transition-delay:0.30s}
+
+  .nav-mobile-num {
+    font-family:var(--mono); font-size:0.6rem; color:var(--cyan);
+    letter-spacing:0.1em; flex-shrink:0; width:24px;
+  }
+  .nav-mobile-label {
+    font-family:var(--mono); font-size:1rem; letter-spacing:0.18em;
+    text-transform:uppercase; color:var(--text);
+    transition:color 0.2s; flex:1;
+  }
+  .nav-mobile-arrow {
+    font-family:var(--mono); font-size:0.7rem; color:var(--text-dim);
+  }
+
+  /* Mobile menu footer bar */
+  .nav-mobile-footer {
+    padding:1.5rem 2.5rem;
+    border-top:1px solid var(--border2);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .nav-mobile-footer-brand {
+    font-family:var(--mono); font-size:0.6rem; letter-spacing:0.12em;
+    color:var(--text-dim);
+  }
+  .nav-mobile-footer-brand span { color:var(--cyan); }
+  .nav-mobile-status {
+    display:flex; align-items:center; gap:0.5rem;
+    font-family:var(--mono); font-size:0.55rem; letter-spacing:0.1em; color:var(--text-dim);
+  }
+  .nav-mobile-status-dot {
+    width:5px; height:5px; background:#22C55E; border-radius:50%;
+    box-shadow:0 0 6px #22C55E;
+    animation:pulse 2s ease-in-out infinite;
+  }
 
   /* HERO */
   #hero {
@@ -106,14 +253,35 @@
   h1 .first { display:block; color:var(--text-mid); font-weight:300; font-size:0.55em; letter-spacing:0.05em; margin-bottom:0.3rem; }
   h1 .last  { color:var(--cyan); }
 
-  .hero-roles { display:flex; flex-wrap:wrap; gap:0.5rem; margin:2rem 0; }
-  .role-chip {
-    font-family:var(--mono); font-size:0.62rem; letter-spacing:0.1em;
-    padding:0.35rem 0.8rem; background:var(--surface); border:1px solid var(--border);
-    color:var(--cyan); border-radius:2px; text-transform:uppercase;
-    transition:border-color 0.3s, background 0.3s;
+  .hero-roles { margin:2rem 0; }
+  .role-typewriter-wrap {
+    display:inline-flex; align-items:center; gap:0;
+    font-family:var(--mono); font-size:0.72rem; letter-spacing:0.14em;
+    text-transform:uppercase;
+    background:var(--surface); border:1px solid var(--border);
+    padding:0.45rem 1rem; border-radius:2px;
+    position:relative; overflow:hidden;
   }
-  .role-chip:hover { background:var(--cyan-dim); border-color:var(--cyan); }
+  .role-typewriter-wrap::before {
+    content:''; position:absolute; top:0; left:0; right:0;
+    height:1px; background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+    opacity:0.5;
+  }
+  .role-prefix {
+    color:var(--text-dim); margin-right:0.5em; flex-shrink:0;
+  }
+  .role-typed {
+    color:var(--cyan);
+    min-width:1ch;
+  }
+  .role-cursor {
+    display:inline-block; width:2px; height:1em;
+    background:var(--cyan); margin-left:2px;
+    vertical-align:middle;
+    box-shadow:0 0 8px var(--cyan);
+    animation:cursorBlink 0.75s step-end infinite;
+  }
+  @keyframes cursorBlink { 0%,100%{opacity:1} 50%{opacity:0} }
 
   .hero-desc {
     font-size:0.9rem; line-height:1.8; color:var(--text-mid);
@@ -187,36 +355,14 @@
     font-weight:700; color:var(--white); letter-spacing:-0.02em; margin-bottom:3.5rem;
   }
 
-  /* PERSONAL */
-  #personal { background:var(--bg2); }
-  .info-grid {
-    display:grid; grid-template-columns:repeat(2,1fr);
-    gap:1px; background:var(--border2); border:1px solid var(--border2);
-  }
-  .info-cell {
-    background:var(--bg2); padding:1.8rem 2rem;
-    display:flex; gap:1.2rem; align-items:flex-start;
-    transition:background 0.3s; position:relative; overflow:hidden;
-  }
-  .info-cell::after { content:''; position:absolute; bottom:0; left:0; width:0; height:2px; background:var(--cyan); transition:width 0.4s ease; }
-  .info-cell:hover { background:var(--surface); }
-  .info-cell:hover::after { width:100%; }
-  .info-icon-box {
-    width:36px; height:36px; background:var(--cyan-dim);
-    border:1px solid var(--border); display:flex; align-items:center;
-    justify-content:center; flex-shrink:0;
-  }
-  .info-icon-box svg { stroke:var(--cyan); }
-  .info-lbl { font-family:var(--mono); font-size:0.58rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-dim); margin-bottom:0.35rem; }
-  .info-val { font-size:0.92rem; color:var(--text); font-weight:400; line-height:1.5; }
-
+  /* EDUCATION */
   /* EDUCATION */
   #education { background:var(--bg); }
-  .timeline { position:relative; padding-left:2.5rem; }
-  .tl-line { position:absolute; left:0; top:0; bottom:0; width:1px; background:linear-gradient(to bottom, var(--cyan), var(--border2) 80%, transparent); }
+  .timeline { position:relative; padding-left:3rem; }
+  .tl-line { position:absolute; left:4px; top:6px; bottom:0; width:1px; background:linear-gradient(to bottom, var(--cyan), var(--border2) 80%, transparent); }
   .tl-item { position:relative; margin-bottom:3.5rem; padding-left:1.5rem; padding-bottom:3.5rem; border-bottom:1px solid var(--border2); }
   .tl-item:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
-  .tl-node { position:absolute; left:-2.6rem; top:0.2rem; width:10px; height:10px; background:var(--bg); border:2px solid var(--cyan); border-radius:50%; box-shadow:0 0 12px var(--cyan-glow); }
+  .tl-node { position:absolute; left:-1.65rem; top:0.25rem; width:10px; height:10px; margin-left:-5px; background:var(--bg); border:2px solid var(--cyan); border-radius:50%; box-shadow:0 0 12px var(--cyan-glow); }
   .tl-period { font-family:var(--mono); font-size:0.65rem; letter-spacing:0.12em; color:var(--cyan); margin-bottom:0.5rem; }
   .tl-degree { font-family:var(--display); font-size:1.3rem; font-weight:700; color:var(--white); margin-bottom:0.25rem; }
   .tl-school { font-family:var(--mono); font-size:0.75rem; color:var(--text-mid); margin-bottom:0.8rem; }
@@ -224,10 +370,58 @@
 
   /* CERTIFICATIONS */
   #certifications { background:var(--bg2); }
+
+  /* Category block */
+  .cert-category { margin-bottom:3rem; }
+  .cert-cat-header {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1rem 1.4rem; background:var(--surface); border:1px solid var(--border2);
+    margin-bottom:1rem; cursor:pointer; transition:border-color 0.3s, background 0.3s;
+    position:relative; overflow:hidden;
+  }
+  .cert-cat-header::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--cyan); }
+  .cert-cat-header:hover { border-color:var(--border); background:var(--surface2); }
+  .cert-cat-left { display:flex; align-items:center; gap:1rem; }
+  .cert-cat-name {
+    font-family:var(--display); font-size:1.05rem; font-weight:700; color:var(--white);
+  }
+  .cert-cat-count {
+    font-family:var(--mono); font-size:0.6rem; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--cyan); background:var(--cyan-dim); border:1px solid var(--border);
+    padding:0.2rem 0.55rem; border-radius:2px;
+  }
+  .cert-cat-right { display:flex; align-items:center; gap:0.6rem; }
+
+  /* View toggle buttons */
+  .cert-view-toggle { display:flex; gap:0.3rem; }
+  .cert-toggle-btn {
+    width:28px; height:28px; background:transparent; border:1px solid var(--border2);
+    color:var(--text-dim); cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:color 0.2s, border-color 0.2s, background 0.2s; border-radius:2px;
+  }
+  .cert-toggle-btn:hover { color:var(--cyan); border-color:var(--cyan); }
+  .cert-toggle-btn.active { color:var(--cyan); border-color:var(--cyan); background:var(--cyan-dim); }
+  .cert-toggle-btn svg { width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+
+  /* Collapse chevron */
+  .cert-chevron {
+    width:20px; height:20px; display:flex; align-items:center; justify-content:center;
+    color:var(--text-dim); transition:transform 0.3s, color 0.2s;
+  }
+  .cert-chevron svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .cert-cat-header.collapsed .cert-chevron { transform:rotate(-90deg); }
+
+  /* Cert container */
+  .cert-container { overflow:hidden; transition:max-height 0.4s ease, opacity 0.3s ease; max-height:2000px; opacity:1; }
+  .cert-container.collapsed { max-height:0; opacity:0; }
+
+  /* CARD VIEW */
   .cert-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; }
+  .cert-grid.hidden, .cert-list.hidden { display:none; }
   .cert-card {
     background:var(--surface); border:1px solid var(--border2); overflow:hidden;
     transition:border-color 0.3s, transform 0.3s, box-shadow 0.3s; position:relative;
+    display:flex; flex-direction:column;
   }
   .cert-card:hover { border-color:var(--cyan); transform:translateY(-3px); box-shadow:0 0 30px rgba(0,220,180,0.1), 0 12px 30px rgba(0,0,0,0.4); }
   .cert-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--cyan),transparent); opacity:0; transition:opacity 0.3s; }
@@ -248,7 +442,7 @@
     opacity:0; transition:opacity 0.3s; pointer-events:none;
   }
   .cert-card:hover .cert-enlarge-hint { opacity:1; }
-  .cert-body { padding:1.2rem 1.4rem; }
+  .cert-body { padding:1.2rem 1.4rem; flex:1; display:flex; flex-direction:column; }
   .cert-name { font-family:var(--display); font-size:0.95rem; font-weight:700; color:var(--white); margin-bottom:0.3rem; line-height:1.3; }
   .cert-issuer { font-family:var(--mono); font-size:0.62rem; letter-spacing:0.1em; color:var(--cyan); margin-bottom:0.3rem; text-transform:uppercase; }
   .cert-yr { font-family:var(--mono); font-size:0.6rem; color:var(--text-dim); margin-bottom:0.6rem; }
@@ -257,9 +451,109 @@
     font-family:var(--mono); font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase;
     color:var(--cyan); text-decoration:none;
     border-bottom:1px solid rgba(0,220,180,0.3); padding-bottom:1px;
-    width:fit-content; transition:opacity 0.2s;
+    width:fit-content; transition:opacity 0.2s; margin-top:auto;
   }
   .cert-ext-link:hover { opacity:0.7; }
+
+  /* LIST VIEW */
+  .cert-list { display:flex; flex-direction:column; gap:0.5rem; }
+  .cert-list-item {
+    background:var(--surface); border:1px solid var(--border2);
+    display:grid; grid-template-columns:52px 1fr auto;
+    align-items:center; gap:1.2rem; padding:0.9rem 1.4rem;
+    transition:border-color 0.3s, background 0.3s; cursor:pointer; position:relative; overflow:hidden;
+  }
+  .cert-list-item::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:var(--cyan); transition:width 0.4s ease; }
+  .cert-list-item:hover { border-color:rgba(0,220,180,0.3); background:var(--surface2); }
+  .cert-list-item:hover::after { width:100%; }
+  .cert-list-num {
+    font-family:var(--mono); font-size:1.4rem; font-weight:700;
+    color:rgba(0,220,180,0.15); line-height:1; text-align:center;
+  }
+  .cert-list-info { min-width:0; }
+  .cert-list-name { font-family:var(--display); font-size:0.92rem; font-weight:700; color:var(--white); margin-bottom:0.2rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .cert-list-meta { display:flex; align-items:center; gap:0.8rem; }
+  .cert-list-issuer { font-family:var(--mono); font-size:0.58rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--cyan); }
+  .cert-list-yr { font-family:var(--mono); font-size:0.58rem; color:var(--text-dim); }
+  .cert-list-actions { display:flex; align-items:center; gap:0.6rem; flex-shrink:0; }
+  .cert-list-preview, .cert-list-link {
+    font-family:var(--mono); font-size:0.55rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--text-dim); text-decoration:none; border:1px solid var(--border2);
+    padding:0.25rem 0.6rem; border-radius:2px; background:transparent; cursor:pointer;
+    transition:color 0.2s, border-color 0.2s; white-space:nowrap;
+  }
+  .cert-list-preview:hover, .cert-list-link:hover { color:var(--cyan); border-color:var(--cyan); }
+
+  /* SKILLS & TOOLS */
+  #skills { background:var(--bg); }
+
+  .skills-layout { display:grid; grid-template-columns:1fr 1fr; gap:3rem; }
+
+  /* Skill groups */
+  .skill-group { margin-bottom:2.5rem; }
+  .skill-group-title {
+    font-family:var(--mono); font-size:0.6rem; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--cyan); margin-bottom:1.2rem; display:flex; align-items:center; gap:0.6rem;
+  }
+  .skill-group-title::after { content:''; flex:1; height:1px; background:var(--border2); }
+
+  /* Skill bar items */
+  .skill-item { margin-bottom:1rem; }
+  .skill-item-header { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:0.4rem; }
+  .skill-name { font-family:var(--display); font-size:0.88rem; font-weight:600; color:var(--text); }
+  .skill-pct { font-family:var(--mono); font-size:0.58rem; color:var(--cyan); letter-spacing:0.08em; }
+  .skill-bar-track {
+    height:3px; background:var(--surface2); border-radius:0; position:relative; overflow:hidden;
+  }
+  .skill-bar-fill {
+    height:100%; background:linear-gradient(90deg, var(--cyan), rgba(0,220,180,0.5));
+    border-radius:0; width:0;
+    box-shadow:0 0 8px rgba(0,220,180,0.4);
+    transition:width 1.2s cubic-bezier(0.23,1,0.32,1);
+  }
+  .skill-bar-fill.animate { width:var(--pct); }
+
+  /* Tool tags grid */
+  .tools-col {}
+  .tool-category { margin-bottom:2rem; }
+  .tool-category-title {
+    font-family:var(--mono); font-size:0.6rem; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--cyan); margin-bottom:0.9rem; display:flex; align-items:center; gap:0.6rem;
+  }
+  .tool-category-title::after { content:''; flex:1; height:1px; background:var(--border2); }
+  .tool-tags { display:flex; flex-wrap:wrap; gap:0.45rem; }
+  .tool-tag {
+    font-family:var(--mono); font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase;
+    padding:0.3rem 0.7rem; background:var(--surface); border:1px solid var(--border2);
+    color:var(--text-mid); border-radius:2px;
+    transition:color 0.25s, border-color 0.25s, background 0.25s, transform 0.2s;
+    cursor:default; position:relative; overflow:hidden;
+  }
+  .tool-tag::before {
+    content:''; position:absolute; inset:0;
+    background:var(--cyan-dim); opacity:0;
+    transition:opacity 0.25s;
+  }
+  .tool-tag:hover { color:var(--cyan); border-color:var(--cyan); transform:translateY(-2px); }
+  .tool-tag:hover::before { opacity:1; }
+
+  /* COMPETENCY CHIPS — distinct pill style */
+  .competency-tags { display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.9rem; }
+  .comp-chip {
+    font-family:var(--mono); font-size:0.58rem; letter-spacing:0.12em; text-transform:uppercase;
+    padding:0.28rem 0.65rem;
+    border-radius:999px;
+    border:1px solid rgba(0,220,180,0.22);
+    color:var(--text-mid);
+    background:transparent;
+    transition:color 0.25s, border-color 0.25s, background 0.25s;
+    cursor:default;
+  }
+  .comp-chip:hover { color:var(--cyan); border-color:var(--cyan); background:var(--cyan-dim); }
+
+  @media (max-width:900px) {
+    .skills-layout { grid-template-columns:1fr; gap:1.5rem; }
+  }
 
   /* JOBS */
   #jobs { background:var(--bg); }
@@ -334,12 +628,16 @@
   /* RESPONSIVE */
   @media (max-width:900px) {
     nav { padding:1rem 1.5rem; }
+    .nav-links { display:none; }
+    .nav-hamburger { display:flex; }
+    .nav-mobile-menu { display:flex; }
     #hero { grid-template-columns:1fr; }
     .hero-right { min-height:380px; }
     .hero-left { padding:4rem 1.5rem 3rem; }
     section { padding:4rem 1.5rem; }
-    .info-grid { grid-template-columns:1fr; }
     .cert-grid { grid-template-columns:1fr 1fr; }
+    .cert-list-item { grid-template-columns:40px 1fr; }
+    .cert-list-actions { display:none; }
     .proj-grid { grid-template-columns:1fr 1fr; }
     footer { padding:2rem 1.5rem; flex-direction:column; gap:1rem; }
     .sec-divider { margin:0 1.5rem; }
@@ -350,6 +648,7 @@
   @media (max-width:600px) {
     .cert-grid { grid-template-columns:1fr; }
     .proj-grid { grid-template-columns:1fr; }
+    .cert-list-item { grid-template-columns:36px 1fr; }
   }
 </style>
 </head>
@@ -362,6 +661,22 @@
   <iframe id="lightbox-pdf" src="" style="display:none;width:85vw;height:85vh;border:1px solid rgba(0,220,180,0.2);background:#fff;"></iframe>
 </div>
 
+<!-- MOBILE NAV MENU (full-screen overlay) -->
+<div class="nav-mobile-menu" id="navMobileMenu">
+  <div class="nav-mobile-inner">
+    <a class="nav-mobile-item" href="#education"      onclick="closeMenu()"><span class="nav-mobile-num">01</span><span class="nav-mobile-label">Education</span><span class="nav-mobile-arrow">&#x2192;</span></a>
+    <a class="nav-mobile-item" href="#certifications" onclick="closeMenu()"><span class="nav-mobile-num">02</span><span class="nav-mobile-label">Certifications</span><span class="nav-mobile-arrow">&#x2192;</span></a>
+    <a class="nav-mobile-item" href="#skills"         onclick="closeMenu()"><span class="nav-mobile-num">03</span><span class="nav-mobile-label">Skills &amp; Tools</span><span class="nav-mobile-arrow">&#x2192;</span></a>
+    <a class="nav-mobile-item" href="#jobs"           onclick="closeMenu()"><span class="nav-mobile-num">04</span><span class="nav-mobile-label">Experience</span><span class="nav-mobile-arrow">&#x2192;</span></a>
+    <a class="nav-mobile-item" href="#projects"       onclick="closeMenu()"><span class="nav-mobile-num">05</span><span class="nav-mobile-label">Projects</span><span class="nav-mobile-arrow">&#x2192;</span></a>
+    <a class="nav-mobile-item" href="https://arrianedorisnuevo.github.io/contact" onclick="closeMenu()"><span class="nav-mobile-num">06</span><span class="nav-mobile-label">Contact</span><span class="nav-mobile-arrow">&#x2197;</span></a>
+  </div>
+  <div class="nav-mobile-footer">
+    <div class="nav-mobile-footer-brand"><span>arriane</span>.dev // ADLN</div>
+    <div class="nav-mobile-status"><div class="nav-mobile-status-dot"></div>portfolio_online</div>
+  </div>
+</div>
+
 <!-- NAV -->
 <nav>
   <div class="nav-logo">
@@ -369,13 +684,20 @@
     <div class="nav-logo-text"><span>arriane</span>.dev</div>
   </div>
   <ul class="nav-links">
-    <li><a href="#personal"       data-num="01">Info</a></li>
-    <li><a href="#education"      data-num="02">Education</a></li>
-    <li><a href="#certifications" data-num="03">Certs</a></li>
+    <li><a href="#education"      data-num="01">Education</a></li>
+    <li><a href="#certifications" data-num="02">Certs</a></li>
+    <li><a href="#skills"         data-num="03">Skills</a></li>
     <li><a href="#jobs"           data-num="04">Experience</a></li>
     <li><a href="#projects"       data-num="05">Projects</a></li>
-    <li><a href="https://arrianedorisnuevo.github.io/contact"    data-num="06">Contact</a></li>
+    <li><a href="https://arrianedorisnuevo.github.io/contact" data-num="06">Contact</a></li>
   </ul>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+    <div class="hbg-lines">
+      <div class="hbg-line"></div>
+      <div class="hbg-line"></div>
+      <div class="hbg-line"></div>
+    </div>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -387,10 +709,11 @@
       Nuevo<span class="last">_</span>
     </h1>
     <div class="hero-roles">
-      <span class="role-chip">Freelancer</span>
-      <span class="role-chip">Business Owner</span>
-      <span class="role-chip">Web Designer</span>
-      <span class="role-chip">Web Developer</span>
+      <div class="role-typewriter-wrap">
+        <span class="role-prefix">// role ::</span>
+        <span class="role-typed" id="roleTyped"></span>
+        <span class="role-cursor"></span>
+      </div>
     </div>
     <p class="hero-desc">
       Building digital products from concept to deployment. Combining elegant design with clean, efficient code to deliver experiences that perform and endure.
@@ -427,55 +750,9 @@
 
 <div class="sec-divider"></div>
 
-<!-- PERSONAL INFO -->
-<section id="personal">
-  <div class="sec-label">01 // personal</div>
-  <h2>Personal Information</h2>
-  <div class="info-grid">
-    <div class="info-cell">
-      <div class="info-icon-box">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-      </div>
-      <div>
-        <div class="info-lbl">Birthday</div>
-        <div class="info-val">April 15, 1993</div>
-      </div>
-    </div>
-    <div class="info-cell">
-      <div class="info-icon-box">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      </div>
-      <div>
-        <div class="info-lbl">Address</div>
-        <div class="info-val">Canelar, Zamboanga City, Zamboanga del Sur, Philippines</div>
-      </div>
-    </div>
-    <div class="info-cell">
-      <div class="info-icon-box">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-      </div>
-      <div>
-        <div class="info-lbl">Phone Number</div>
-        <div class="info-val">+63 917 106 3504</div>
-      </div>
-    </div>
-    <div class="info-cell">
-      <div class="info-icon-box">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      </div>
-      <div>
-        <div class="info-lbl">Email Address</div>
-        <div class="info-val">arrianedoris.ln@gmail.com</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="sec-divider"></div>
-
 <!-- EDUCATION -->
 <section id="education">
-  <div class="sec-label">02 // education</div>
+  <div class="sec-label">01 // education</div>
   <h2>Educational Attainment</h2>
   <div class="timeline">
     <div class="tl-line"></div>
@@ -514,118 +791,531 @@
 
 <!-- CERTIFICATIONS -->
 <section id="certifications">
-  <div class="sec-label">03 // certifications</div>
+  <div class="sec-label">02 // certifications</div>
   <h2>Certifications</h2>
-  <div class="cert-grid">
 
-    <div class="cert-card">
-      <div class="cert-img-area" onclick="openLightbox('c1.pdf')">
-        <object data="c1.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
-          <div class="cert-placeholder">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <span>c1.pdf</span>
-          </div>
-        </object>
-        <div class="cert-enlarge-hint">&#x2197; click to enlarge</div>
+  <!-- SVG icons used in toggle buttons -->
+  <svg style="display:none">
+    <symbol id="icon-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></symbol>
+    <symbol id="icon-list" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></symbol>
+    <symbol id="icon-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></symbol>
+  </svg>
+
+  <!-- ═══════════════════════════════════════════
+       CATEGORY 1: Canva (Design School)
+  ════════════════════════════════════════════ -->
+  <div class="cert-category">
+    <div class="cert-cat-header" onclick="toggleCategory(this)">
+      <div class="cert-cat-left">
+        <div class="cert-cat-name">Canva (Design School)</div>
+        <div class="cert-cat-count">[ N ] certs</div>
       </div>
-      <div class="cert-body">
-        <div class="cert-name">[ Certification Name ]</div>
-        <div class="cert-issuer">[ Issuing Organization ]</div>
-        <div class="cert-yr">[ Year Obtained ]</div>
-        <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+      <div class="cert-cat-right">
+        <div class="cert-view-toggle" onclick="event.stopPropagation()">
+          <button class="cert-toggle-btn active" title="Card view" onclick="setView(this,'cards')">
+            <svg><use href="#icon-grid"/></svg>
+          </button>
+          <button class="cert-toggle-btn" title="List view" onclick="setView(this,'list')">
+            <svg><use href="#icon-list"/></svg>
+          </button>
+        </div>
+        <div class="cert-chevron"><svg><use href="#icon-chevron"/></svg></div>
       </div>
     </div>
-
-    <div class="cert-card">
-      <div class="cert-img-area" onclick="openLightbox('c2.pdf')">
-        <object data="c2.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
-          <div class="cert-placeholder">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <span>c2.pdf</span>
+    <div class="cert-container">
+      <!-- CARD VIEW -->
+      <div class="cert-grid">
+        <div class="cert-card">
+          <div class="cert-img-area" onclick="openLightbox('c1.pdf')">
+            <object data="c1.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
+              <div class="cert-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span>c1.pdf</span>
+              </div>
+            </object>
+            <div class="cert-enlarge-hint">&#x2197; click to enlarge</div>
           </div>
-        </object>
-        <div class="cert-enlarge-hint">&#x2197; click to enlarge</div>
+          <div class="cert-body">
+            <div class="cert-name">[ Certification Name ]</div>
+            <div class="cert-issuer">Canva Design School</div>
+            <div class="cert-yr">[ Year Obtained ]</div>
+            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+          </div>
+        </div>
+        <!-- Add more Canva cert-cards here, most recent first -->
       </div>
-      <div class="cert-body">
-        <div class="cert-name">[ Certification Name ]</div>
-        <div class="cert-issuer">[ Issuing Organization ]</div>
-        <div class="cert-yr">[ Year Obtained ]</div>
-        <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+      <!-- LIST VIEW -->
+      <div class="cert-list hidden">
+        <div class="cert-list-item" onclick="openLightbox('c1.pdf')">
+          <div class="cert-list-num">01</div>
+          <div class="cert-list-info">
+            <div class="cert-list-name">[ Certification Name ]</div>
+            <div class="cert-list-meta">
+              <span class="cert-list-issuer">Canva Design School</span>
+              <span class="cert-list-yr">[ Year Obtained ]</span>
+            </div>
+          </div>
+          <div class="cert-list-actions">
+            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('c1.pdf')">&#x2197; Preview</button>
+            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
+          </div>
+        </div>
+        <!-- Add more Canva list items here, most recent first -->
       </div>
     </div>
+  </div>
 
-    <div class="cert-card">
-      <div class="cert-img-area" onclick="openLightbox('c3.pdf')">
-        <object data="c3.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
-          <div class="cert-placeholder">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <span>c3.pdf</span>
-          </div>
-        </object>
-        <div class="cert-enlarge-hint">&#x2197; click to enlarge</div>
+  <!-- ═══════════════════════════════════════════
+       CATEGORY 2: freeCodeCamp.org
+  ════════════════════════════════════════════ -->
+  <div class="cert-category">
+    <div class="cert-cat-header" onclick="toggleCategory(this)">
+      <div class="cert-cat-left">
+        <div class="cert-cat-name">freeCodeCamp.org</div>
+        <div class="cert-cat-count">[ N ] certs</div>
       </div>
-      <div class="cert-body">
-        <div class="cert-name">[ Certification Name ]</div>
-        <div class="cert-issuer">[ Issuing Organization ]</div>
-        <div class="cert-yr">[ Year Obtained ]</div>
-        <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+      <div class="cert-cat-right">
+        <div class="cert-view-toggle" onclick="event.stopPropagation()">
+          <button class="cert-toggle-btn active" title="Card view" onclick="setView(this,'cards')">
+            <svg><use href="#icon-grid"/></svg>
+          </button>
+          <button class="cert-toggle-btn" title="List view" onclick="setView(this,'list')">
+            <svg><use href="#icon-list"/></svg>
+          </button>
+        </div>
+        <div class="cert-chevron"><svg><use href="#icon-chevron"/></svg></div>
       </div>
     </div>
-
-    <div class="cert-card">
-      <div class="cert-img-area" onclick="openLightbox('c4.pdf')">
-        <object data="c4.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
-          <div class="cert-placeholder">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <span>c4.pdf</span>
+    <div class="cert-container">
+      <div class="cert-grid">
+        <div class="cert-card">
+          <div class="cert-img-area" onclick="openLightbox('c2.pdf')">
+            <object data="c2.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
+              <div class="cert-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span>c2.pdf</span>
+              </div>
+            </object>
+            <div class="cert-enlarge-hint">&#x2197; click to enlarge</div>
           </div>
-        </object>
-        <div class="cert-enlarge-hint">&#x2197; click to enlarge</div>
+          <div class="cert-body">
+            <div class="cert-name">[ Certification Name ]</div>
+            <div class="cert-issuer">freeCodeCamp.org</div>
+            <div class="cert-yr">[ Year Obtained ]</div>
+            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+          </div>
+        </div>
+        <!-- Add more fCC cert-cards here, most recent first -->
       </div>
-      <div class="cert-body">
-        <div class="cert-name">[ Certification Name ]</div>
-        <div class="cert-issuer">[ Issuing Organization ]</div>
-        <div class="cert-yr">[ Year Obtained ]</div>
-        <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+      <div class="cert-list hidden">
+        <div class="cert-list-item" onclick="openLightbox('c2.pdf')">
+          <div class="cert-list-num">01</div>
+          <div class="cert-list-info">
+            <div class="cert-list-name">[ Certification Name ]</div>
+            <div class="cert-list-meta">
+              <span class="cert-list-issuer">freeCodeCamp.org</span>
+              <span class="cert-list-yr">[ Year Obtained ]</span>
+            </div>
+          </div>
+          <div class="cert-list-actions">
+            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('c2.pdf')">&#x2197; Preview</button>
+            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
+          </div>
+        </div>
+        <!-- Add more fCC list items here, most recent first -->
       </div>
     </div>
+  </div>
 
-    <div class="cert-card">
-      <div class="cert-img-area" onclick="openLightbox('c5.pdf')">
-        <object data="c5.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
-          <div class="cert-placeholder">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <span>c5.pdf</span>
-          </div>
-        </object>
-        <div class="cert-enlarge-hint">&#x2197; click to enlarge</div>
+  <!-- ═══════════════════════════════════════════
+       CATEGORY 3: Google (Applied Digital Skills)
+  ════════════════════════════════════════════ -->
+  <div class="cert-category">
+    <div class="cert-cat-header" onclick="toggleCategory(this)">
+      <div class="cert-cat-left">
+        <div class="cert-cat-name">Google (Applied Digital Skills)</div>
+        <div class="cert-cat-count">[ N ] certs</div>
       </div>
-      <div class="cert-body">
-        <div class="cert-name">[ Certification Name ]</div>
-        <div class="cert-issuer">[ Issuing Organization ]</div>
-        <div class="cert-yr">[ Year Obtained ]</div>
-        <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+      <div class="cert-cat-right">
+        <div class="cert-view-toggle" onclick="event.stopPropagation()">
+          <button class="cert-toggle-btn active" title="Card view" onclick="setView(this,'cards')">
+            <svg><use href="#icon-grid"/></svg>
+          </button>
+          <button class="cert-toggle-btn" title="List view" onclick="setView(this,'list')">
+            <svg><use href="#icon-list"/></svg>
+          </button>
+        </div>
+        <div class="cert-chevron"><svg><use href="#icon-chevron"/></svg></div>
       </div>
     </div>
-
-    <div class="cert-card">
-      <div class="cert-img-area" onclick="openLightbox('c6.pdf')">
-        <object data="c6.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
-          <div class="cert-placeholder">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <span>c6.pdf</span>
+    <div class="cert-container">
+      <div class="cert-grid">
+        <div class="cert-card">
+          <div class="cert-img-area" onclick="openLightbox('c3.pdf')">
+            <object data="c3.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
+              <div class="cert-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span>c3.pdf</span>
+              </div>
+            </object>
+            <div class="cert-enlarge-hint">&#x2197; click to enlarge</div>
           </div>
-        </object>
-        <div class="cert-enlarge-hint">&#x2197; click to enlarge</div>
+          <div class="cert-body">
+            <div class="cert-name">[ Certification Name ]</div>
+            <div class="cert-issuer">Google Applied Digital Skills</div>
+            <div class="cert-yr">[ Year Obtained ]</div>
+            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+          </div>
+        </div>
+        <!-- Add more Google cert-cards here, most recent first -->
       </div>
-      <div class="cert-body">
-        <div class="cert-name">[ Certification Name ]</div>
-        <div class="cert-issuer">[ Issuing Organization ]</div>
-        <div class="cert-yr">[ Year Obtained ]</div>
-        <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+      <div class="cert-list hidden">
+        <div class="cert-list-item" onclick="openLightbox('c3.pdf')">
+          <div class="cert-list-num">01</div>
+          <div class="cert-list-info">
+            <div class="cert-list-name">[ Certification Name ]</div>
+            <div class="cert-list-meta">
+              <span class="cert-list-issuer">Google Applied Digital Skills</span>
+              <span class="cert-list-yr">[ Year Obtained ]</span>
+            </div>
+          </div>
+          <div class="cert-list-actions">
+            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('c3.pdf')">&#x2197; Preview</button>
+            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
+          </div>
+        </div>
+        <!-- Add more Google list items here, most recent first -->
       </div>
     </div>
+  </div>
 
+  <!-- ═══════════════════════════════════════════
+       CATEGORY 4: Philippine Government Institutions (TESDA, DICT)
+  ════════════════════════════════════════════ -->
+  <div class="cert-category">
+    <div class="cert-cat-header" onclick="toggleCategory(this)">
+      <div class="cert-cat-left">
+        <div class="cert-cat-name">Philippine Government Institutions (TESDA &middot; DICT)</div>
+        <div class="cert-cat-count">[ N ] certs</div>
+      </div>
+      <div class="cert-cat-right">
+        <div class="cert-view-toggle" onclick="event.stopPropagation()">
+          <button class="cert-toggle-btn active" title="Card view" onclick="setView(this,'cards')">
+            <svg><use href="#icon-grid"/></svg>
+          </button>
+          <button class="cert-toggle-btn" title="List view" onclick="setView(this,'list')">
+            <svg><use href="#icon-list"/></svg>
+          </button>
+        </div>
+        <div class="cert-chevron"><svg><use href="#icon-chevron"/></svg></div>
+      </div>
+    </div>
+    <div class="cert-container">
+      <div class="cert-grid">
+        <div class="cert-card">
+          <div class="cert-img-area" onclick="openLightbox('c4.pdf')">
+            <object data="c4.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
+              <div class="cert-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span>c4.pdf</span>
+              </div>
+            </object>
+            <div class="cert-enlarge-hint">&#x2197; click to enlarge</div>
+          </div>
+          <div class="cert-body">
+            <div class="cert-name">[ Certification Name ]</div>
+            <div class="cert-issuer">TESDA / DICT</div>
+            <div class="cert-yr">[ Year Obtained ]</div>
+            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+          </div>
+        </div>
+        <!-- Add more PH Gov cert-cards here, most recent first -->
+      </div>
+      <div class="cert-list hidden">
+        <div class="cert-list-item" onclick="openLightbox('c4.pdf')">
+          <div class="cert-list-num">01</div>
+          <div class="cert-list-info">
+            <div class="cert-list-name">[ Certification Name ]</div>
+            <div class="cert-list-meta">
+              <span class="cert-list-issuer">TESDA / DICT</span>
+              <span class="cert-list-yr">[ Year Obtained ]</span>
+            </div>
+          </div>
+          <div class="cert-list-actions">
+            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('c4.pdf')">&#x2197; Preview</button>
+            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
+          </div>
+        </div>
+        <!-- Add more PH Gov list items here, most recent first -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       CATEGORY 5: Sound Native Virtual Academy
+  ════════════════════════════════════════════ -->
+  <div class="cert-category">
+    <div class="cert-cat-header" onclick="toggleCategory(this)">
+      <div class="cert-cat-left">
+        <div class="cert-cat-name">Sound Native Virtual Academy</div>
+        <div class="cert-cat-count">[ N ] certs</div>
+      </div>
+      <div class="cert-cat-right">
+        <div class="cert-view-toggle" onclick="event.stopPropagation()">
+          <button class="cert-toggle-btn active" title="Card view" onclick="setView(this,'cards')">
+            <svg><use href="#icon-grid"/></svg>
+          </button>
+          <button class="cert-toggle-btn" title="List view" onclick="setView(this,'list')">
+            <svg><use href="#icon-list"/></svg>
+          </button>
+        </div>
+        <div class="cert-chevron"><svg><use href="#icon-chevron"/></svg></div>
+      </div>
+    </div>
+    <div class="cert-container">
+      <div class="cert-grid">
+        <div class="cert-card">
+          <div class="cert-img-area" onclick="openLightbox('c5.pdf')">
+            <object data="c5.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
+              <div class="cert-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span>c5.pdf</span>
+              </div>
+            </object>
+            <div class="cert-enlarge-hint">&#x2197; click to enlarge</div>
+          </div>
+          <div class="cert-body">
+            <div class="cert-name">[ Certification Name ]</div>
+            <div class="cert-issuer">Sound Native Virtual Academy</div>
+            <div class="cert-yr">[ Year Obtained ]</div>
+            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+          </div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-img-area" onclick="openLightbox('c6.pdf')">
+            <object data="c6.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
+              <div class="cert-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span>c6.pdf</span>
+              </div>
+            </object>
+            <div class="cert-enlarge-hint">&#x2197; click to enlarge</div>
+          </div>
+          <div class="cert-body">
+            <div class="cert-name">[ Certification Name ]</div>
+            <div class="cert-issuer">Sound Native Virtual Academy</div>
+            <div class="cert-yr">[ Year Obtained ]</div>
+            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+          </div>
+        </div>
+        <!-- Add more SNVA cert-cards here, most recent first -->
+      </div>
+      <div class="cert-list hidden">
+        <div class="cert-list-item" onclick="openLightbox('c5.pdf')">
+          <div class="cert-list-num">01</div>
+          <div class="cert-list-info">
+            <div class="cert-list-name">[ Certification Name ]</div>
+            <div class="cert-list-meta">
+              <span class="cert-list-issuer">Sound Native Virtual Academy</span>
+              <span class="cert-list-yr">[ Year Obtained ]</span>
+            </div>
+          </div>
+          <div class="cert-list-actions">
+            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('c5.pdf')">&#x2197; Preview</button>
+            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
+          </div>
+        </div>
+        <div class="cert-list-item" onclick="openLightbox('c6.pdf')">
+          <div class="cert-list-num">02</div>
+          <div class="cert-list-info">
+            <div class="cert-list-name">[ Certification Name ]</div>
+            <div class="cert-list-meta">
+              <span class="cert-list-issuer">Sound Native Virtual Academy</span>
+              <span class="cert-list-yr">[ Year Obtained ]</span>
+            </div>
+          </div>
+          <div class="cert-list-actions">
+            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('c6.pdf')">&#x2197; Preview</button>
+            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
+          </div>
+        </div>
+        <!-- Add more SNVA list items here, most recent first -->
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- SKILLS & TOOLS -->
+<section id="skills">
+  <div class="sec-label">03 // capabilities</div>
+  <h2>Skills &amp; Tools</h2>
+  <div class="skills-layout">
+
+    <!-- LEFT: Skill bars + Core Competencies -->
+    <div class="skills-col">
+
+      <div class="skill-group">
+        <div class="skill-group-title">Design</div>
+        <div class="skill-item">
+          <div class="skill-item-header"><span class="skill-name">UI / UX Design</span><span class="skill-pct">90%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="--pct:90%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header"><span class="skill-name">Brand Identity &amp; Visual Design</span><span class="skill-pct">85%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="--pct:85%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header"><span class="skill-name">Graphic Design</span><span class="skill-pct">82%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="--pct:82%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header"><span class="skill-name">Print &amp; Digital Layout</span><span class="skill-pct">78%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="--pct:78%"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">Development</div>
+        <div class="skill-item">
+          <div class="skill-item-header"><span class="skill-name">HTML5 &amp; CSS3</span><span class="skill-pct">90%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="--pct:90%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header"><span class="skill-name">Responsive Web Design</span><span class="skill-pct">88%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="--pct:88%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header"><span class="skill-name">JavaScript</span><span class="skill-pct">75%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="--pct:75%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header"><span class="skill-name">WordPress / CMS Development</span><span class="skill-pct">80%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="--pct:80%"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">Business &amp; Freelance</div>
+        <div class="skill-item">
+          <div class="skill-item-header"><span class="skill-name">Client Communication &amp; Management</span><span class="skill-pct">92%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="--pct:92%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header"><span class="skill-name">Project &amp; Task Management</span><span class="skill-pct">82%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="--pct:82%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header"><span class="skill-name">Digital Marketing &amp; Sales</span><span class="skill-pct">78%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="--pct:78%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header"><span class="skill-name">Administrative &amp; Organizational Work</span><span class="skill-pct">88%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="--pct:88%"></div></div>
+        </div>
+      </div>
+
+      <!-- Core Competencies as pill chips -->
+      <div class="skill-group">
+        <div class="skill-group-title">Core Competencies</div>
+        <div class="competency-tags">
+          <span class="comp-chip">Problem-solving</span>
+          <span class="comp-chip">Critical Thinking</span>
+          <span class="comp-chip">Analytical Thinking</span>
+          <span class="comp-chip">Decision-making</span>
+          <span class="comp-chip">Attention to Detail</span>
+          <span class="comp-chip">Adaptability</span>
+          <span class="comp-chip">Creativity</span>
+          <span class="comp-chip">Resourcefulness</span>
+          <span class="comp-chip">Persuasion</span>
+          <span class="comp-chip">Conflict Management</span>
+          <span class="comp-chip">Organizational Skills</span>
+          <span class="comp-chip">CSR Skills</span>
+          <span class="comp-chip">Openness to Criticism</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Tool tags -->
+    <div class="tools-col">
+
+      <div class="tool-category">
+        <div class="tool-category-title">Design &amp; Creative Tools</div>
+        <div class="tool-tags">
+          <span class="tool-tag">Canva</span>
+          <span class="tool-tag">GIMP</span>
+          <span class="tool-tag">Adobe Photoshop</span>
+          <span class="tool-tag">Adobe Illustrator</span>
+          <span class="tool-tag">Adobe InDesign</span>
+          <span class="tool-tag">Figma</span>
+          <span class="tool-tag">Adobe XD</span>
+        </div>
+      </div>
+
+      <div class="tool-category">
+        <div class="tool-category-title">Development &amp; Deployment</div>
+        <div class="tool-tags">
+          <span class="tool-tag">VS Code</span>
+          <span class="tool-tag">GitHub</span>
+          <span class="tool-tag">Supabase</span>
+          <span class="tool-tag">CodePen</span>
+          <span class="tool-tag">Replit</span>
+          <span class="tool-tag">Chrome DevTools</span>
+          <span class="tool-tag">WordPress</span>
+          <span class="tool-tag">Wix</span>
+          <span class="tool-tag">Ecwid</span>
+          <span class="tool-tag">Elementor</span>
+          <span class="tool-tag">Hostinger</span>
+          <span class="tool-tag">cPanel</span>
+          <span class="tool-tag">Netlify</span>
+          <span class="tool-tag">GitHub Pages</span>
+        </div>
+      </div>
+
+      <div class="tool-category">
+        <div class="tool-category-title">Productivity &amp; Collaboration</div>
+        <div class="tool-tags">
+          <span class="tool-tag">Google Workspace</span>
+          <span class="tool-tag">Microsoft 365</span>
+          <span class="tool-tag">Notion</span>
+          <span class="tool-tag">Asana</span>
+          <span class="tool-tag">Trello</span>
+          <span class="tool-tag">Calendly</span>
+          <span class="tool-tag">Typeform</span>
+          <span class="tool-tag">Loom</span>
+        </div>
+      </div>
+
+      <div class="tool-category">
+        <div class="tool-category-title">Communication &amp; Meetings</div>
+        <div class="tool-tags">
+          <span class="tool-tag">Slack</span>
+          <span class="tool-tag">Discord</span>
+          <span class="tool-tag">Zoom</span>
+          <span class="tool-tag">Google Meet</span>
+          <span class="tool-tag">Skype</span>
+          <span class="tool-tag">RingCentral</span>
+        </div>
+      </div>
+
+      <div class="tool-category">
+        <div class="tool-category-title">CRM, LMS &amp; Business Platforms</div>
+        <div class="tool-tags">
+          <span class="tool-tag">Salesforce</span>
+          <span class="tool-tag">TalentLMS</span>
+          <span class="tool-tag">Upwork</span>
+          <span class="tool-tag">Facebook Business</span>
+          <span class="tool-tag">Google Analytics</span>
+          <span class="tool-tag">Mailchimp</span>
+          <span class="tool-tag">PayPal</span>
+          <span class="tool-tag">GCash</span>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
 
@@ -772,7 +1462,29 @@
   <div class="footer-copy">&copy; 2026 Arriane Doris Nuevo</div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // HAMBURGER MENU
+  const navHamburger = document.getElementById('navHamburger');
+  const navMobileMenu = document.getElementById('navMobileMenu');
+  let menuOpen = false;
+
+  function toggleMenu() {
+    menuOpen = !menuOpen;
+    navHamburger.classList.toggle('open', menuOpen);
+    navMobileMenu.classList.toggle('open', menuOpen);
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+  }
+
+  function closeMenu() {
+    menuOpen = false;
+    navHamburger.classList.remove('open');
+    navMobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Close menu on Escape key
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && menuOpen) closeMenu(); });
+
   // SCROLL REVEAL
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -810,14 +1522,111 @@
     lb.classList.add('open');
   }
 
-  function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('open');
-    document.getElementById('lightbox-pdf').src = '';
+  // CATEGORY COLLAPSE
+  function toggleCategory(header) {
+    header.classList.toggle('collapsed');
+    const container = header.nextElementSibling;
+    container.classList.toggle('collapsed');
   }
+
+  // VIEW TOGGLE (cards / list)
+  function setView(btn, mode) {
+    const toggleGroup = btn.closest('.cert-view-toggle');
+    const container = btn.closest('.cert-category').querySelector('.cert-container');
+    const grid = container.querySelector('.cert-grid');
+    const list = container.querySelector('.cert-list');
+    // Update active button
+    toggleGroup.querySelectorAll('.cert-toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    // Show correct view
+    if (mode === 'cards') {
+      grid.classList.remove('hidden');
+      list.classList.add('hidden');
+    } else {
+      list.classList.remove('hidden');
+      grid.classList.add('hidden');
+    }
+  }
+
+  function closeLightbox() {
+    const lb = document.getElementById('lightbox');
+    lb.classList.remove('open');
+    document.getElementById('lightbox-pdf').src = '';
+    document.getElementById('lightbox-img').src = '';
+  }
+
+  // SKILL BAR ANIMATION (triggers on scroll into view)
+  const skillObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.skill-bar-fill').forEach(bar => bar.classList.add('animate'));
+        skillObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  const skillsSection = document.getElementById('skills');
+  if (skillsSection) skillObs.observe(skillsSection);
+
+  // ROLE TYPEWRITER
+  (function() {
+    const roles = [
+      'Independent Consultant',
+      'Digital Entrepreneur',
+      'UI / UX Designer',
+      'Front-End Developer',
+      'Brand Identity Designer',
+      'Full-Stack Web Developer',
+    ];
+    const el = document.getElementById('roleTyped');
+    if (!el) return;
+
+    let roleIndex = 0;
+    let charIndex  = 0;
+    let deleting   = false;
+    const TYPE_SPEED   = 68;   // ms per character typed
+    const DELETE_SPEED = 34;   // ms per character deleted
+    const PAUSE_AFTER  = 1800; // ms to hold full word
+    const PAUSE_BEFORE = 320;  // ms before starting to delete
+
+    function tick() {
+      const current = roles[roleIndex];
+
+      if (!deleting) {
+        // Type next character
+        charIndex++;
+        el.textContent = current.slice(0, charIndex);
+
+        if (charIndex === current.length) {
+          // Word fully typed — pause then start deleting
+          deleting = true;
+          setTimeout(tick, PAUSE_AFTER);
+          return;
+        }
+        setTimeout(tick, TYPE_SPEED);
+      } else {
+        // Delete one character
+        charIndex--;
+        el.textContent = current.slice(0, charIndex);
+
+        if (charIndex === 0) {
+          // Word fully deleted — move to next, pause then type
+          deleting = false;
+          roleIndex = (roleIndex + 1) % roles.length;
+          setTimeout(tick, PAUSE_BEFORE);
+          return;
+        }
+        setTimeout(tick, DELETE_SPEED);
+      }
+    }
+
+    setTimeout(tick, 900); // initial delay on page load
+  })();
+
 
   document.getElementById('lightbox').addEventListener('click', function(e) {
     if (e.target === this) closeLightbox();
   });
+
 </script>
 </body>
 </html>
