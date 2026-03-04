@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificate — Arriane Doris Nuevo</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@300;400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #080C10;
+    --bg2:     #0D1117;
+    --surface: #141C26;
+    --border:  rgba(0,220,180,0.12);
+    --border2: rgba(255,255,255,0.06);
+    --cyan:    #00DCB4;
+    --cyan-dim: rgba(0,220,180,0.12);
+    --cyan-glow: rgba(0,220,180,0.35);
+    --text:    #E2EAF4;
+    --text-mid:#8899AA;
+    --text-dim:#445566;
+    --mono:   'JetBrains Mono', monospace;
+    --display:'Syne', sans-serif;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+
+  body {
+    font-family: var(--display);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  /* grid bg */
+  body::before {
+    content:''; position:fixed; inset:0;
+    background-image:
+      linear-gradient(rgba(0,220,180,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,220,180,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events:none; z-index:0;
+  }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:0.9rem 3rem;
+    background:rgba(8,12,16,0.9);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-logo { display:flex; align-items:center; gap:0.75rem; text-decoration:none; }
+  .nav-logo-mark {
+    width:38px; height:28px; border:1.5px solid var(--cyan);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-size:0.52rem; color:var(--cyan);
+    position:relative; letter-spacing:0.04em;
+  }
+  .nav-logo-mark::before { content:''; position:absolute; inset:2px; background:var(--cyan-dim); }
+  .nav-logo-text { font-family:var(--mono); font-size:0.72rem; letter-spacing:0.1em; color:var(--text-mid); }
+  .nav-logo-text span { color:var(--cyan); }
+
+  .nav-back {
+    display:flex; align-items:center; gap:0.5rem;
+    font-family:var(--mono); font-size:0.62rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--text-dim); text-decoration:none;
+    border:1px solid var(--border2); padding:0.35rem 0.8rem; border-radius:2px;
+    transition:color 0.25s, border-color 0.25s, background 0.25s;
+  }
+  .nav-back:hover { color:var(--cyan); border-color:var(--cyan); background:var(--cyan-dim); }
+  .nav-back::before { content:'←'; font-size:0.8rem; }
+
+  /* MAIN */
+  main {
+    position:relative; z-index:1;
+    flex:1; display:flex; flex-direction:column;
+    padding-top:72px;
+  }
+
+  /* NOT FOUND STATE */
+  .not-found {
+    flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:1rem; padding:4rem 2rem; text-align:center;
+  }
+  .not-found-code { font-family:var(--mono); font-size:4rem; font-weight:700; color:rgba(0,220,180,0.1); }
+  .not-found-msg  { font-family:var(--mono); font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-dim); }
+
+  /* CERT VIEWER */
+  .cert-viewer { flex:1; display:flex; flex-direction:column; padding:3rem 4rem 4rem; max-width:1100px; width:100%; margin:0 auto; }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    font-family:var(--mono); font-size:0.58rem; letter-spacing:0.15em; text-transform:uppercase;
+    color:var(--text-dim); margin-bottom:2rem; display:flex; align-items:center; gap:0.5rem;
+  }
+  .breadcrumb a { color:var(--text-dim); text-decoration:none; transition:color 0.2s; }
+  .breadcrumb a:hover { color:var(--cyan); }
+  .breadcrumb span { color:var(--cyan); }
+
+  /* Header */
+  .cert-header { margin-bottom:2.5rem; }
+  .cert-org-label {
+    font-family:var(--mono); font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--cyan); display:flex; align-items:center; gap:0.8rem; margin-bottom:0.6rem;
+  }
+  .cert-org-label::after { content:''; width:50px; height:1px; background:var(--cyan); opacity:0.4; }
+  .cert-title {
+    font-family:var(--display); font-size:clamp(1.6rem,3vw,2.4rem);
+    font-weight:700; color:#fff; letter-spacing:-0.02em; margin-bottom:0.6rem; line-height:1.2;
+  }
+  .cert-meta {
+    display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap;
+    font-family:var(--mono); font-size:0.62rem; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--text-dim);
+  }
+  .cert-meta-item { display:flex; align-items:center; gap:0.4rem; }
+  .cert-meta-dot { width:4px; height:4px; background:var(--cyan); border-radius:50%; }
+
+  /* PDF embed area */
+  .cert-embed-wrap {
+    flex:1; background:var(--surface);
+    border:1px solid var(--border); position:relative;
+    overflow:hidden; min-height:600px;
+  }
+  .cert-embed-wrap::before {
+    content:''; position:absolute; top:0; left:0; right:0;
+    height:2px; background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+    opacity:0.6; z-index:2;
+  }
+  /* Corner brackets */
+  .cert-embed-wrap::after {
+    content:''; position:absolute; bottom:0; right:0;
+    width:20px; height:20px;
+    border-right:1px solid var(--cyan); border-bottom:1px solid var(--cyan);
+    opacity:0.4; z-index:2;
+  }
+  .corner-tl {
+    position:absolute; top:0; left:0; width:20px; height:20px;
+    border-left:1px solid var(--cyan); border-top:1px solid var(--cyan);
+    opacity:0.4; z-index:2; pointer-events:none;
+  }
+
+  .cert-pdf-frame {
+    width:100%; height:100%; min-height:600px;
+    border:none; display:block; background:#fff;
+  }
+
+  /* PDF fallback */
+  .cert-pdf-fallback {
+    width:100%; height:100%; min-height:600px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:1.2rem; padding:3rem;
+  }
+  .cert-pdf-fallback svg { stroke:var(--cyan); opacity:0.4; }
+  .cert-pdf-fallback p { font-family:var(--mono); font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); text-align:center; }
+
+  /* Action bar */
+  .cert-actions {
+    display:flex; align-items:center; gap:0.75rem; margin-top:1.5rem; flex-wrap:wrap;
+  }
+  .cert-action-btn {
+    display:inline-flex; align-items:center; gap:0.5rem;
+    font-family:var(--mono); font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase;
+    padding:0.55rem 1.1rem; border-radius:2px; text-decoration:none; cursor:pointer;
+    transition:all 0.25s; border:1px solid;
+  }
+  .cert-action-primary {
+    background:var(--cyan); color:var(--bg); border-color:var(--cyan); font-weight:600;
+  }
+  .cert-action-primary:hover { background:rgba(0,220,180,0.8); box-shadow:0 0 20px var(--cyan-glow); }
+  .cert-action-secondary {
+    background:transparent; color:var(--cyan); border-color:var(--cyan);
+  }
+  .cert-action-secondary:hover { background:var(--cyan-dim); }
+  .cert-action-ghost {
+    background:transparent; color:var(--text-dim); border-color:var(--border2);
+  }
+  .cert-action-ghost:hover { color:var(--cyan); border-color:var(--cyan); }
+
+  /* Footer */
+  footer {
+    position:relative; z-index:1;
+    border-top:1px solid var(--border); padding:1.5rem 4rem;
+    display:flex; justify-content:space-between; align-items:center;
+    background:var(--bg);
+  }
+  .footer-brand { font-family:var(--mono); font-size:0.6rem; letter-spacing:0.12em; color:var(--text-dim); }
+  .footer-brand span { color:var(--cyan); }
+  .footer-copy { font-family:var(--mono); font-size:0.58rem; color:var(--text-dim); }
+
+  @media (max-width:768px) {
+    nav { padding:0.9rem 1.2rem; }
+    .cert-viewer { padding:2rem 1.2rem 3rem; }
+    footer { padding:1.5rem 1.2rem; flex-direction:column; gap:0.5rem; }
+    .cert-embed-wrap { min-height:420px; }
+    .cert-pdf-frame { min-height:420px; }
+    .cert-pdf-fallback { min-height:420px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">
+    <div class="nav-logo-mark">ADLN</div>
+    <div class="nav-logo-text"><span>arriane</span>.dev</div>
+  </a>
+  <a class="nav-back" href="index.html#certifications">Back to Portfolio</a>
+</nav>
+
+<main id="main">
+  <!-- Content injected by JS -->
+</main>
+
+<footer>
+  <div class="footer-brand"><span>arriane</span>.dev // ADLN</div>
+  <div class="footer-copy">&copy; 2026 Arriane Doris Nuevo</div>
+</footer>
+
+<script>
+// ─── Certificate Registry ──────────────────────────────────────────────────
+const CERTS = {
+  'google-ads-program-progress-bar': {
+    title:  'Program a Progress Bar',
+    org:    'Google Applied Digital Skills',
+    date:   'March 8, 2025',
+    pdf:    'google-ads-program-progress-bar.pdf',
+    extUrl: null,
+  },
+  'google-ads-research-develop-topic': {
+    title:  'Research and Develop a Topic',
+    org:    'Google Applied Digital Skills',
+    date:   'March 2, 2025',
+    pdf:    'google-ads-research-develop-topic.pdf',
+    extUrl: null,
+  },
+  'google-ads-prepare-business-plan': {
+    title:  'Prepare Your Business Plan',
+    org:    'Google Applied Digital Skills',
+    date:   'March 2, 2025',
+    pdf:    'google-ads-prepare-business-plan.pdf',
+    extUrl: null,
+  },
+  'google-ads-estimate-financing': {
+    title:  'Estimate Financing for Your Business Plan',
+    org:    'Google Applied Digital Skills',
+    date:   'February 28, 2025',
+    pdf:    'google-ads-estimate-financing.pdf',
+    extUrl: null,
+  },
+  'google-ads-build-online-business': {
+    title:  'Build Your Online Business',
+    org:    'Google Applied Digital Skills',
+    date:   'February 28, 2025',
+    pdf:    'google-ads-build-online-business.pdf',
+    extUrl: null,
+  },
+  'google-ads-discover-ai-daily-life': {
+    title:  'Discover AI in Daily Life',
+    org:    'Google Applied Digital Skills',
+    date:   'February 27, 2025',
+    pdf:    'google-ads-discover-ai-daily-life.pdf',
+    extUrl: null,
+  },
+  'dict-image-editing-open-source': {
+    title:  'Image Editing Using Open-Source Software',
+    org:    'DICT RO IX',
+    date:   'May 7–9, 2019',
+    pdf:    'dict-image-editing-open-source.pdf',
+    extUrl: null,
+  },
+  'tesda-english-proficiency': {
+    title:  'English Proficiency',
+    org:    'TESDA',
+    date:   'December 8–22, 2014',
+    pdf:    'tesda-english-proficiency.pdf',
+    extUrl: null,
+  },
+};
+
+// ─── Render ────────────────────────────────────────────────────────────────
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  const id     = params.get('id');
+  const main   = document.getElementById('main');
+  const cert   = id ? CERTS[id] : null;
+
+  // Update page title
+  if (cert) document.title = cert.title + ' — Arriane Doris Nuevo';
+
+  if (!cert) {
+    main.innerHTML = `
+      <div class="not-found">
+        <div class="not-found-code">404</div>
+        <div class="not-found-msg">Certificate not found</div>
+        <a href="index.html#certifications" style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--cyan);text-decoration:none;margin-top:1rem;border:1px solid var(--cyan);padding:0.45rem 1rem;border-radius:2px;">← Back to Certifications</a>
+      </div>`;
+    return;
+  }
+
+  const pdfSrc   = cert.pdf;
+  const shareUrl = window.location.href;
+
+  main.innerHTML = `
+    <div class="cert-viewer">
+
+      <div class="breadcrumb">
+        <a href="index.html">Portfolio</a>
+        <span>//</span>
+        <a href="index.html#certifications">Certifications</a>
+        <span>//</span>
+        <span style="color:var(--text-mid)">${escHtml(cert.title)}</span>
+      </div>
+
+      <div class="cert-header">
+        <div class="cert-org-label">${escHtml(cert.org)}</div>
+        <div class="cert-title">${escHtml(cert.title)}</div>
+        <div class="cert-meta">
+          <div class="cert-meta-item">
+            <div class="cert-meta-dot"></div>
+            <span>${escHtml(cert.date)}</span>
+          </div>
+          <div class="cert-meta-item">
+            <div class="cert-meta-dot"></div>
+            <span>ID // ${escHtml(id)}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cert-embed-wrap" id="embedWrap">
+        <div class="corner-tl"></div>
+        <iframe
+          class="cert-pdf-frame"
+          id="pdfFrame"
+          src="${pdfSrc}#toolbar=0&navpanes=0&view=FitH"
+          title="${escHtml(cert.title)}"
+          loading="lazy"
+        ></iframe>
+      </div>
+
+      <div class="cert-actions">
+        <a class="cert-action-btn cert-action-primary" href="${pdfSrc}" download>
+          ↓ Download PDF
+        </a>
+        <a class="cert-action-btn cert-action-secondary" href="${pdfSrc}" target="_blank" rel="noopener">
+          &#x2197; Open PDF
+        </a>
+        <button class="cert-action-btn cert-action-ghost" onclick="copyLink()">
+          &#x29C9; Copy Link
+        </button>
+        <a class="cert-action-btn cert-action-ghost" href="index.html#certifications">
+          ← All Certifications
+        </a>
+      </div>
+
+    </div>`;
+})();
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const btn = document.querySelector('[onclick="copyLink()"]');
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    btn.style.color = 'var(--cyan)';
+    btn.style.borderColor = 'var(--cyan)';
+    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; btn.style.borderColor = ''; }, 2000);
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = window.location.href;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  });
+}
+</script>
+</body>
+</html>
