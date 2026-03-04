@@ -801,21 +801,143 @@
     <symbol id="icon-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></symbol>
   </svg>
 
-  <!-- ═══════════════════════════════════════════
-       CATEGORY 1: Canva (Design School)
-  ════════════════════════════════════════════ -->
+  <!-- ══════════════════════════════════════════
+       CATEGORY 1: Canva (Design School) — 1 cert
+  ═══════════════════════════════════════════ -->
   <div class="cert-category">
     <div class="cert-cat-header" onclick="toggleCategory(this)">
       <div class="cert-cat-left">
         <div class="cert-cat-name">Canva (Design School)</div>
-        <div class="cert-cat-count">[ N ] certs</div>
+        <div class="cert-cat-count">1 cert</div>
       </div>
       <div class="cert-cat-right">
         <div class="cert-view-toggle" onclick="event.stopPropagation()">
-          <button class="cert-toggle-btn active" title="Card view" onclick="setView(this,'cards')">
+          <button class="cert-toggle-btn" title="Card view" onclick="setView(this,'cards')">
             <svg><use href="#icon-grid"/></svg>
           </button>
-          <button class="cert-toggle-btn" title="List view" onclick="setView(this,'list')">
+          <button class="cert-toggle-btn active" title="List view" onclick="setView(this,'list')">
+            <svg><use href="#icon-list"/></svg>
+          </button>
+        </div>
+        <div class="cert-chevron"><svg><use href="#icon-chevron"/></svg></div>
+      </div>
+    </div>
+    <div class="cert-container">
+      <!-- CARD VIEW (hidden by default) -->
+      <div class="cert-grid hidden">
+        <div class="cert-card">
+          <div class="cert-img-area" onclick="openLightbox('canva-graphic-design-essentials.pdf')">
+            <object data="canva-graphic-design-essentials.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
+              <div class="cert-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span>PDF</span>
+              </div>
+            </object>
+            <div class="cert-enlarge-hint">&#x2197; click to view</div>
+          </div>
+          <div class="cert-body">
+            <div class="cert-name">Graphic Design Essentials</div>
+            <div class="cert-issuer">Canva Design School</div>
+            <div class="cert-yr">March 9, 2025</div>
+            <a href="https://www.canva.com/en/design-school/certification-award/783198ed-efac-4deb-9458-8443343165fe" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+          </div>
+        </div>
+      </div>
+      <!-- LIST VIEW (default) -->
+      <div class="cert-list">
+        <div class="cert-list-item" onclick="openLightbox('canva-graphic-design-essentials.pdf')">
+          <div class="cert-list-num">01</div>
+          <div class="cert-list-info">
+            <div class="cert-list-name">Graphic Design Essentials</div>
+            <div class="cert-list-meta">
+              <span class="cert-list-issuer">Canva Design School</span>
+              <span class="cert-list-yr">March 9, 2025</span>
+            </div>
+          </div>
+          <div class="cert-list-actions">
+            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('canva-graphic-design-essentials.pdf')">&#x2197; Preview</button>
+            <a href="https://www.canva.com/en/design-school/certification-award/783198ed-efac-4deb-9458-8443343165fe" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       CATEGORY 2: freeCodeCamp.org — 1 cert
+  ═══════════════════════════════════════════ -->
+  <div class="cert-category">
+    <div class="cert-cat-header" onclick="toggleCategory(this)">
+      <div class="cert-cat-left">
+        <div class="cert-cat-name">freeCodeCamp.org</div>
+        <div class="cert-cat-count">1 cert</div>
+      </div>
+      <div class="cert-cat-right">
+        <div class="cert-view-toggle" onclick="event.stopPropagation()">
+          <button class="cert-toggle-btn" title="Card view" onclick="setView(this,'cards')">
+            <svg><use href="#icon-grid"/></svg>
+          </button>
+          <button class="cert-toggle-btn active" title="List view" onclick="setView(this,'list')">
+            <svg><use href="#icon-list"/></svg>
+          </button>
+        </div>
+        <div class="cert-chevron"><svg><use href="#icon-chevron"/></svg></div>
+      </div>
+    </div>
+    <div class="cert-container">
+      <div class="cert-grid hidden">
+        <div class="cert-card">
+          <div class="cert-img-area" onclick="openLightbox('fcc-responsive-web-design.pdf')">
+            <object data="fcc-responsive-web-design.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
+              <div class="cert-placeholder">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span>PDF</span>
+              </div>
+            </object>
+            <div class="cert-enlarge-hint">&#x2197; click to view</div>
+          </div>
+          <div class="cert-body">
+            <div class="cert-name">Responsive Web Design</div>
+            <div class="cert-issuer">freeCodeCamp.org</div>
+            <div class="cert-yr">June 4, 2025</div>
+            <a href="https://www.freecodecamp.org/certification/arrianedoris/responsive-web-design" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+          </div>
+        </div>
+      </div>
+      <div class="cert-list">
+        <div class="cert-list-item" onclick="openLightbox('fcc-responsive-web-design.pdf')">
+          <div class="cert-list-num">01</div>
+          <div class="cert-list-info">
+            <div class="cert-list-name">Responsive Web Design</div>
+            <div class="cert-list-meta">
+              <span class="cert-list-issuer">freeCodeCamp.org</span>
+              <span class="cert-list-yr">June 4, 2025</span>
+            </div>
+          </div>
+          <div class="cert-list-actions">
+            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('fcc-responsive-web-design.pdf')">&#x2197; Preview</button>
+            <a href="https://www.freecodecamp.org/certification/arrianedoris/responsive-web-design" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       CATEGORY 3: Google (Applied Digital Skills) — 7 certs
+  ═══════════════════════════════════════════ -->
+  <div class="cert-category">
+    <div class="cert-cat-header" onclick="toggleCategory(this)">
+      <div class="cert-cat-left">
+        <div class="cert-cat-name">Google (Applied Digital Skills)</div>
+        <div class="cert-cat-count">7 certs</div>
+      </div>
+      <div class="cert-cat-right">
+        <div class="cert-view-toggle" onclick="event.stopPropagation()">
+          <button class="cert-toggle-btn" title="Card view" onclick="setView(this,'cards')">
+            <svg><use href="#icon-grid"/></svg>
+          </button>
+          <button class="cert-toggle-btn active" title="List view" onclick="setView(this,'list')">
             <svg><use href="#icon-list"/></svg>
           </button>
         </div>
@@ -824,186 +946,186 @@
     </div>
     <div class="cert-container">
       <!-- CARD VIEW -->
-      <div class="cert-grid">
-        <div class="cert-card">
-          <div class="cert-img-area" onclick="openLightbox('c1.pdf')">
-            <object data="c1.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
-              <div class="cert-placeholder">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                <span>c1.pdf</span>
-              </div>
-            </object>
-            <div class="cert-enlarge-hint">&#x2197; click to enlarge</div>
-          </div>
-          <div class="cert-body">
-            <div class="cert-name">[ Certification Name ]</div>
-            <div class="cert-issuer">Canva Design School</div>
-            <div class="cert-yr">[ Year Obtained ]</div>
-            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
-          </div>
-        </div>
-        <!-- Add more Canva cert-cards here, most recent first -->
-      </div>
-      <!-- LIST VIEW -->
-      <div class="cert-list hidden">
-        <div class="cert-list-item" onclick="openLightbox('c1.pdf')">
-          <div class="cert-list-num">01</div>
-          <div class="cert-list-info">
-            <div class="cert-list-name">[ Certification Name ]</div>
-            <div class="cert-list-meta">
-              <span class="cert-list-issuer">Canva Design School</span>
-              <span class="cert-list-yr">[ Year Obtained ]</span>
-            </div>
-          </div>
-          <div class="cert-list-actions">
-            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('c1.pdf')">&#x2197; Preview</button>
-            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
-          </div>
-        </div>
-        <!-- Add more Canva list items here, most recent first -->
-      </div>
-    </div>
-  </div>
+      <div class="cert-grid hidden">
 
-  <!-- ═══════════════════════════════════════════
-       CATEGORY 2: freeCodeCamp.org
-  ════════════════════════════════════════════ -->
-  <div class="cert-category">
-    <div class="cert-cat-header" onclick="toggleCategory(this)">
-      <div class="cert-cat-left">
-        <div class="cert-cat-name">freeCodeCamp.org</div>
-        <div class="cert-cat-count">[ N ] certs</div>
-      </div>
-      <div class="cert-cat-right">
-        <div class="cert-view-toggle" onclick="event.stopPropagation()">
-          <button class="cert-toggle-btn active" title="Card view" onclick="setView(this,'cards')">
-            <svg><use href="#icon-grid"/></svg>
-          </button>
-          <button class="cert-toggle-btn" title="List view" onclick="setView(this,'list')">
-            <svg><use href="#icon-list"/></svg>
-          </button>
-        </div>
-        <div class="cert-chevron"><svg><use href="#icon-chevron"/></svg></div>
-      </div>
-    </div>
-    <div class="cert-container">
-      <div class="cert-grid">
         <div class="cert-card">
-          <div class="cert-img-area" onclick="openLightbox('c2.pdf')">
-            <object data="c2.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
-              <div class="cert-placeholder">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                <span>c2.pdf</span>
-              </div>
+          <div class="cert-img-area" onclick="openLightbox('google-ads-program-progress-bar.pdf')">
+            <object data="google-ads-program-progress-bar.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
+              <div class="cert-placeholder"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>PDF</span></div>
             </object>
-            <div class="cert-enlarge-hint">&#x2197; click to enlarge</div>
+            <div class="cert-enlarge-hint">&#x2197; click to view</div>
           </div>
           <div class="cert-body">
-            <div class="cert-name">[ Certification Name ]</div>
-            <div class="cert-issuer">freeCodeCamp.org</div>
-            <div class="cert-yr">[ Year Obtained ]</div>
-            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
-          </div>
-        </div>
-        <!-- Add more fCC cert-cards here, most recent first -->
-      </div>
-      <div class="cert-list hidden">
-        <div class="cert-list-item" onclick="openLightbox('c2.pdf')">
-          <div class="cert-list-num">01</div>
-          <div class="cert-list-info">
-            <div class="cert-list-name">[ Certification Name ]</div>
-            <div class="cert-list-meta">
-              <span class="cert-list-issuer">freeCodeCamp.org</span>
-              <span class="cert-list-yr">[ Year Obtained ]</span>
-            </div>
-          </div>
-          <div class="cert-list-actions">
-            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('c2.pdf')">&#x2197; Preview</button>
-            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
-          </div>
-        </div>
-        <!-- Add more fCC list items here, most recent first -->
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════
-       CATEGORY 3: Google (Applied Digital Skills)
-  ════════════════════════════════════════════ -->
-  <div class="cert-category">
-    <div class="cert-cat-header" onclick="toggleCategory(this)">
-      <div class="cert-cat-left">
-        <div class="cert-cat-name">Google (Applied Digital Skills)</div>
-        <div class="cert-cat-count">[ N ] certs</div>
-      </div>
-      <div class="cert-cat-right">
-        <div class="cert-view-toggle" onclick="event.stopPropagation()">
-          <button class="cert-toggle-btn active" title="Card view" onclick="setView(this,'cards')">
-            <svg><use href="#icon-grid"/></svg>
-          </button>
-          <button class="cert-toggle-btn" title="List view" onclick="setView(this,'list')">
-            <svg><use href="#icon-list"/></svg>
-          </button>
-        </div>
-        <div class="cert-chevron"><svg><use href="#icon-chevron"/></svg></div>
-      </div>
-    </div>
-    <div class="cert-container">
-      <div class="cert-grid">
-        <div class="cert-card">
-          <div class="cert-img-area" onclick="openLightbox('c3.pdf')">
-            <object data="c3.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
-              <div class="cert-placeholder">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                <span>c3.pdf</span>
-              </div>
-            </object>
-            <div class="cert-enlarge-hint">&#x2197; click to enlarge</div>
-          </div>
-          <div class="cert-body">
-            <div class="cert-name">[ Certification Name ]</div>
+            <div class="cert-name">Program a Progress Bar</div>
             <div class="cert-issuer">Google Applied Digital Skills</div>
-            <div class="cert-yr">[ Year Obtained ]</div>
-            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+            <div class="cert-yr">March 8, 2025</div>
+            <a href="cert-viewer.html?id=google-ads-program-progress-bar" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
           </div>
         </div>
-        <!-- Add more Google cert-cards here, most recent first -->
+
+        <div class="cert-card">
+          <div class="cert-img-area" onclick="openLightbox('google-ads-research-develop-topic.pdf')">
+            <object data="google-ads-research-develop-topic.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
+              <div class="cert-placeholder"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>PDF</span></div>
+            </object>
+            <div class="cert-enlarge-hint">&#x2197; click to view</div>
+          </div>
+          <div class="cert-body">
+            <div class="cert-name">Research and Develop a Topic</div>
+            <div class="cert-issuer">Google Applied Digital Skills</div>
+            <div class="cert-yr">March 2, 2025</div>
+            <a href="cert-viewer.html?id=google-ads-research-develop-topic" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-img-area" onclick="openLightbox('google-ads-prepare-business-plan.pdf')">
+            <object data="google-ads-prepare-business-plan.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
+              <div class="cert-placeholder"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>PDF</span></div>
+            </object>
+            <div class="cert-enlarge-hint">&#x2197; click to view</div>
+          </div>
+          <div class="cert-body">
+            <div class="cert-name">Prepare Your Business Plan</div>
+            <div class="cert-issuer">Google Applied Digital Skills</div>
+            <div class="cert-yr">March 2, 2025</div>
+            <a href="cert-viewer.html?id=google-ads-prepare-business-plan" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-img-area" onclick="openLightbox('google-ads-estimate-financing.pdf')">
+            <object data="google-ads-estimate-financing.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
+              <div class="cert-placeholder"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>PDF</span></div>
+            </object>
+            <div class="cert-enlarge-hint">&#x2197; click to view</div>
+          </div>
+          <div class="cert-body">
+            <div class="cert-name">Estimate Financing for Your Business Plan</div>
+            <div class="cert-issuer">Google Applied Digital Skills</div>
+            <div class="cert-yr">February 28, 2025</div>
+            <a href="cert-viewer.html?id=google-ads-estimate-financing" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-img-area" onclick="openLightbox('google-ads-build-online-business.pdf')">
+            <object data="google-ads-build-online-business.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
+              <div class="cert-placeholder"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>PDF</span></div>
+            </object>
+            <div class="cert-enlarge-hint">&#x2197; click to view</div>
+          </div>
+          <div class="cert-body">
+            <div class="cert-name">Build Your Online Business</div>
+            <div class="cert-issuer">Google Applied Digital Skills</div>
+            <div class="cert-yr">February 28, 2025</div>
+            <a href="cert-viewer.html?id=google-ads-build-online-business" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-img-area" onclick="openLightbox('google-ads-discover-ai-daily-life.pdf')">
+            <object data="google-ads-discover-ai-daily-life.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
+              <div class="cert-placeholder"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>PDF</span></div>
+            </object>
+            <div class="cert-enlarge-hint">&#x2197; click to view</div>
+          </div>
+          <div class="cert-body">
+            <div class="cert-name">Discover AI in Daily Life</div>
+            <div class="cert-issuer">Google Applied Digital Skills</div>
+            <div class="cert-yr">February 27, 2025</div>
+            <a href="cert-viewer.html?id=google-ads-discover-ai-daily-life" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+          </div>
+        </div>
+
       </div>
-      <div class="cert-list hidden">
-        <div class="cert-list-item" onclick="openLightbox('c3.pdf')">
+      <!-- LIST VIEW (default) -->
+      <div class="cert-list">
+        <div class="cert-list-item" onclick="openLightbox('google-ads-program-progress-bar.pdf')">
           <div class="cert-list-num">01</div>
           <div class="cert-list-info">
-            <div class="cert-list-name">[ Certification Name ]</div>
-            <div class="cert-list-meta">
-              <span class="cert-list-issuer">Google Applied Digital Skills</span>
-              <span class="cert-list-yr">[ Year Obtained ]</span>
-            </div>
+            <div class="cert-list-name">Program a Progress Bar</div>
+            <div class="cert-list-meta"><span class="cert-list-issuer">Google Applied Digital Skills</span><span class="cert-list-yr">March 8, 2025</span></div>
           </div>
           <div class="cert-list-actions">
-            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('c3.pdf')">&#x2197; Preview</button>
-            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
+            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('google-ads-program-progress-bar.pdf')">&#x2197; Preview</button>
+            <a href="cert-viewer.html?id=google-ads-program-progress-bar" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
           </div>
         </div>
-        <!-- Add more Google list items here, most recent first -->
+        <div class="cert-list-item" onclick="openLightbox('google-ads-research-develop-topic.pdf')">
+          <div class="cert-list-num">02</div>
+          <div class="cert-list-info">
+            <div class="cert-list-name">Research and Develop a Topic</div>
+            <div class="cert-list-meta"><span class="cert-list-issuer">Google Applied Digital Skills</span><span class="cert-list-yr">March 2, 2025</span></div>
+          </div>
+          <div class="cert-list-actions">
+            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('google-ads-research-develop-topic.pdf')">&#x2197; Preview</button>
+            <a href="cert-viewer.html?id=google-ads-research-develop-topic" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
+          </div>
+        </div>
+        <div class="cert-list-item" onclick="openLightbox('google-ads-prepare-business-plan.pdf')">
+          <div class="cert-list-num">03</div>
+          <div class="cert-list-info">
+            <div class="cert-list-name">Prepare Your Business Plan</div>
+            <div class="cert-list-meta"><span class="cert-list-issuer">Google Applied Digital Skills</span><span class="cert-list-yr">March 2, 2025</span></div>
+          </div>
+          <div class="cert-list-actions">
+            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('google-ads-prepare-business-plan.pdf')">&#x2197; Preview</button>
+            <a href="cert-viewer.html?id=google-ads-prepare-business-plan" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
+          </div>
+        </div>
+        <div class="cert-list-item" onclick="openLightbox('google-ads-estimate-financing.pdf')">
+          <div class="cert-list-num">04</div>
+          <div class="cert-list-info">
+            <div class="cert-list-name">Estimate Financing for Your Business Plan</div>
+            <div class="cert-list-meta"><span class="cert-list-issuer">Google Applied Digital Skills</span><span class="cert-list-yr">February 28, 2025</span></div>
+          </div>
+          <div class="cert-list-actions">
+            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('google-ads-estimate-financing.pdf')">&#x2197; Preview</button>
+            <a href="cert-viewer.html?id=google-ads-estimate-financing" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
+          </div>
+        </div>
+        <div class="cert-list-item" onclick="openLightbox('google-ads-build-online-business.pdf')">
+          <div class="cert-list-num">05</div>
+          <div class="cert-list-info">
+            <div class="cert-list-name">Build Your Online Business</div>
+            <div class="cert-list-meta"><span class="cert-list-issuer">Google Applied Digital Skills</span><span class="cert-list-yr">February 28, 2025</span></div>
+          </div>
+          <div class="cert-list-actions">
+            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('google-ads-build-online-business.pdf')">&#x2197; Preview</button>
+            <a href="cert-viewer.html?id=google-ads-build-online-business" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
+          </div>
+        </div>
+        <div class="cert-list-item" onclick="openLightbox('google-ads-discover-ai-daily-life.pdf')">
+          <div class="cert-list-num">06</div>
+          <div class="cert-list-info">
+            <div class="cert-list-name">Discover AI in Daily Life</div>
+            <div class="cert-list-meta"><span class="cert-list-issuer">Google Applied Digital Skills</span><span class="cert-list-yr">February 27, 2025</span></div>
+          </div>
+          <div class="cert-list-actions">
+            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('google-ads-discover-ai-daily-life.pdf')">&#x2197; Preview</button>
+            <a href="cert-viewer.html?id=google-ads-discover-ai-daily-life" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════
-       CATEGORY 4: Philippine Government Institutions (TESDA, DICT)
-  ════════════════════════════════════════════ -->
+  <!-- ══════════════════════════════════════════
+       CATEGORY 4: Philippine Government Institutions (TESDA · DICT) — 2 certs
+  ═══════════════════════════════════════════ -->
   <div class="cert-category">
     <div class="cert-cat-header" onclick="toggleCategory(this)">
       <div class="cert-cat-left">
         <div class="cert-cat-name">Philippine Government Institutions (TESDA &middot; DICT)</div>
-        <div class="cert-cat-count">[ N ] certs</div>
+        <div class="cert-cat-count">2 certs</div>
       </div>
       <div class="cert-cat-right">
         <div class="cert-view-toggle" onclick="event.stopPropagation()">
-          <button class="cert-toggle-btn active" title="Card view" onclick="setView(this,'cards')">
+          <button class="cert-toggle-btn" title="Card view" onclick="setView(this,'cards')">
             <svg><use href="#icon-grid"/></svg>
           </button>
-          <button class="cert-toggle-btn" title="List view" onclick="setView(this,'list')">
+          <button class="cert-toggle-btn active" title="List view" onclick="setView(this,'list')">
             <svg><use href="#icon-list"/></svg>
           </button>
         </div>
@@ -1011,49 +1133,69 @@
       </div>
     </div>
     <div class="cert-container">
-      <div class="cert-grid">
+      <div class="cert-grid hidden">
+
         <div class="cert-card">
-          <div class="cert-img-area" onclick="openLightbox('c4.pdf')">
-            <object data="c4.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
-              <div class="cert-placeholder">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                <span>c4.pdf</span>
-              </div>
+          <div class="cert-img-area" onclick="openLightbox('dict-image-editing-open-source.pdf')">
+            <object data="dict-image-editing-open-source.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
+              <div class="cert-placeholder"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>PDF</span></div>
             </object>
-            <div class="cert-enlarge-hint">&#x2197; click to enlarge</div>
+            <div class="cert-enlarge-hint">&#x2197; click to view</div>
           </div>
           <div class="cert-body">
-            <div class="cert-name">[ Certification Name ]</div>
-            <div class="cert-issuer">TESDA / DICT</div>
-            <div class="cert-yr">[ Year Obtained ]</div>
-            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+            <div class="cert-name">Image Editing Using Open-Source Software</div>
+            <div class="cert-issuer">DICT RO IX</div>
+            <div class="cert-yr">May 7–9, 2019</div>
+            <a href="cert-viewer.html?id=dict-image-editing-open-source" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
           </div>
         </div>
-        <!-- Add more PH Gov cert-cards here, most recent first -->
+
+        <div class="cert-card">
+          <div class="cert-img-area" onclick="openLightbox('tesda-english-proficiency.pdf')">
+            <object data="tesda-english-proficiency.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
+              <div class="cert-placeholder"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>PDF</span></div>
+            </object>
+            <div class="cert-enlarge-hint">&#x2197; click to view</div>
+          </div>
+          <div class="cert-body">
+            <div class="cert-name">English Proficiency</div>
+            <div class="cert-issuer">TESDA</div>
+            <div class="cert-yr">December 8–22, 2014</div>
+            <a href="cert-viewer.html?id=tesda-english-proficiency" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
+          </div>
+        </div>
+
       </div>
-      <div class="cert-list hidden">
-        <div class="cert-list-item" onclick="openLightbox('c4.pdf')">
+      <div class="cert-list">
+        <div class="cert-list-item" onclick="openLightbox('dict-image-editing-open-source.pdf')">
           <div class="cert-list-num">01</div>
           <div class="cert-list-info">
-            <div class="cert-list-name">[ Certification Name ]</div>
-            <div class="cert-list-meta">
-              <span class="cert-list-issuer">TESDA / DICT</span>
-              <span class="cert-list-yr">[ Year Obtained ]</span>
-            </div>
+            <div class="cert-list-name">Image Editing Using Open-Source Software</div>
+            <div class="cert-list-meta"><span class="cert-list-issuer">DICT RO IX</span><span class="cert-list-yr">May 7–9, 2019</span></div>
           </div>
           <div class="cert-list-actions">
-            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('c4.pdf')">&#x2197; Preview</button>
-            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
+            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('dict-image-editing-open-source.pdf')">&#x2197; Preview</button>
+            <a href="cert-viewer.html?id=dict-image-editing-open-source" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
           </div>
         </div>
-        <!-- Add more PH Gov list items here, most recent first -->
+        <div class="cert-list-item" onclick="openLightbox('tesda-english-proficiency.pdf')">
+          <div class="cert-list-num">02</div>
+          <div class="cert-list-info">
+            <div class="cert-list-name">English Proficiency</div>
+            <div class="cert-list-meta"><span class="cert-list-issuer">TESDA</span><span class="cert-list-yr">December 8–22, 2014</span></div>
+          </div>
+          <div class="cert-list-actions">
+            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('tesda-english-proficiency.pdf')">&#x2197; Preview</button>
+            <a href="cert-viewer.html?id=tesda-english-proficiency" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════
-       CATEGORY 5: Sound Native Virtual Academy
-  ════════════════════════════════════════════ -->
+  <!-- ══════════════════════════════════════════
+       CATEGORY 5: Sound Native Virtual Academy — placeholder
+  ═══════════════════════════════════════════ -->
   <div class="cert-category">
     <div class="cert-cat-header" onclick="toggleCategory(this)">
       <div class="cert-cat-left">
@@ -1062,10 +1204,10 @@
       </div>
       <div class="cert-cat-right">
         <div class="cert-view-toggle" onclick="event.stopPropagation()">
-          <button class="cert-toggle-btn active" title="Card view" onclick="setView(this,'cards')">
+          <button class="cert-toggle-btn" title="Card view" onclick="setView(this,'cards')">
             <svg><use href="#icon-grid"/></svg>
           </button>
-          <button class="cert-toggle-btn" title="List view" onclick="setView(this,'list')">
+          <button class="cert-toggle-btn active" title="List view" onclick="setView(this,'list')">
             <svg><use href="#icon-list"/></svg>
           </button>
         </div>
@@ -1073,73 +1215,18 @@
       </div>
     </div>
     <div class="cert-container">
-      <div class="cert-grid">
-        <div class="cert-card">
-          <div class="cert-img-area" onclick="openLightbox('c5.pdf')">
-            <object data="c5.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
-              <div class="cert-placeholder">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                <span>c5.pdf</span>
-              </div>
-            </object>
-            <div class="cert-enlarge-hint">&#x2197; click to enlarge</div>
-          </div>
-          <div class="cert-body">
-            <div class="cert-name">[ Certification Name ]</div>
-            <div class="cert-issuer">Sound Native Virtual Academy</div>
-            <div class="cert-yr">[ Year Obtained ]</div>
-            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
-          </div>
-        </div>
-        <div class="cert-card">
-          <div class="cert-img-area" onclick="openLightbox('c6.pdf')">
-            <object data="c6.pdf#view=FitH&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
-              <div class="cert-placeholder">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                <span>c6.pdf</span>
-              </div>
-            </object>
-            <div class="cert-enlarge-hint">&#x2197; click to enlarge</div>
-          </div>
-          <div class="cert-body">
-            <div class="cert-name">[ Certification Name ]</div>
-            <div class="cert-issuer">Sound Native Virtual Academy</div>
-            <div class="cert-yr">[ Year Obtained ]</div>
-            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-ext-link">&#x2197; View Certificate</a>
-          </div>
-        </div>
-        <!-- Add more SNVA cert-cards here, most recent first -->
+      <div class="cert-grid hidden">
+        <!-- Add SNVA cert cards here when available, most recent first -->
       </div>
-      <div class="cert-list hidden">
-        <div class="cert-list-item" onclick="openLightbox('c5.pdf')">
-          <div class="cert-list-num">01</div>
+      <div class="cert-list">
+        <!-- Add SNVA list items here when available, most recent first -->
+        <div class="cert-list-item" style="pointer-events:none; opacity:0.4;">
+          <div class="cert-list-num">—</div>
           <div class="cert-list-info">
             <div class="cert-list-name">[ Certification Name ]</div>
-            <div class="cert-list-meta">
-              <span class="cert-list-issuer">Sound Native Virtual Academy</span>
-              <span class="cert-list-yr">[ Year Obtained ]</span>
-            </div>
-          </div>
-          <div class="cert-list-actions">
-            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('c5.pdf')">&#x2197; Preview</button>
-            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
+            <div class="cert-list-meta"><span class="cert-list-issuer">Sound Native Virtual Academy</span><span class="cert-list-yr">[ Date ]</span></div>
           </div>
         </div>
-        <div class="cert-list-item" onclick="openLightbox('c6.pdf')">
-          <div class="cert-list-num">02</div>
-          <div class="cert-list-info">
-            <div class="cert-list-name">[ Certification Name ]</div>
-            <div class="cert-list-meta">
-              <span class="cert-list-issuer">Sound Native Virtual Academy</span>
-              <span class="cert-list-yr">[ Year Obtained ]</span>
-            </div>
-          </div>
-          <div class="cert-list-actions">
-            <button class="cert-list-preview" onclick="event.stopPropagation();openLightbox('c6.pdf')">&#x2197; Preview</button>
-            <a href="[ CERTIFICATE URL ]" target="_blank" rel="noopener" class="cert-list-link" onclick="event.stopPropagation()">View</a>
-          </div>
-        </div>
-        <!-- Add more SNVA list items here, most recent first -->
       </div>
     </div>
   </div>
