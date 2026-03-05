@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Arriane Doris Nuevo — Portfolio</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' fill='%23080C10'/%3E%3Crect x='3' y='3' width='42' height='42' fill='none' stroke='%2300DCB4' stroke-width='1.5'/%3E%3Crect x='7' y='7' width='34' height='34' fill='rgba(0,220,180,0.08)'/%3E%3Ctext x='24' y='22' font-family='JetBrains Mono,monospace' font-weight='700' font-size='13' fill='%2300DCB4' text-anchor='middle' dominant-baseline='middle'%3EAD%3C/text%3E%3Ctext x='24' y='36' font-family='JetBrains Mono,monospace' font-weight='700' font-size='13' fill='%2300DCB4' text-anchor='middle' dominant-baseline='middle'%3ELN%3C/text%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@300;400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -600,8 +601,6 @@
     border-top:1px solid var(--border); padding:2.5rem 5rem;
     display:flex; justify-content:space-between; align-items:center;
   }
-  .footer-name { font-family:var(--display); font-size:1.2rem; font-weight:700; color:var(--white); }
-  .footer-sub { font-family:var(--mono); font-size:0.62rem; letter-spacing:0.12em; color:var(--text-dim); margin-top:0.25rem; }
   .footer-copy { font-family:var(--mono); font-size:0.62rem; color:var(--text-dim); }
 
   .sec-divider { height:1px; background:linear-gradient(90deg,transparent 0%,var(--border) 30%,var(--border) 70%,transparent 100%); margin:0 5rem; position:relative; z-index:1; }
@@ -655,6 +654,49 @@
     .proj-grid { grid-template-columns:1fr; }
     .cert-list-item { grid-template-columns:36px 1fr; }
   }
+
+  /* ── SCROLL REVEAL ─────────────────────────────────────────────────────── */
+  [data-reveal] { opacity:0; will-change:transform,opacity,filter; }
+  [data-reveal="up"]    { transform:translateY(48px);  transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1); }
+  [data-reveal="down"]  { transform:translateY(-32px); transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1); }
+  [data-reveal="left"]  { transform:translateX(56px);  transition:opacity .7s  cubic-bezier(.16,1,.3,1),transform .7s  cubic-bezier(.16,1,.3,1); }
+  [data-reveal="right"] { transform:translateX(-56px); transition:opacity .7s  cubic-bezier(.16,1,.3,1),transform .7s  cubic-bezier(.16,1,.3,1); }
+  [data-reveal="scale"] { transform:scale(.88) translateY(20px); transition:opacity .7s cubic-bezier(.34,1.56,.64,1),transform .7s cubic-bezier(.34,1.56,.64,1); }
+  [data-reveal="fade"]  { filter:blur(6px); transform:none; transition:opacity .6s ease,filter .6s ease; }
+  [data-reveal].revealed { opacity:1!important; transform:none!important; filter:none!important; }
+
+  /* Section labels — scanline wipe + flicker */
+  .sec-label[data-reveal] { clip-path:inset(0 100% 0 0); opacity:1; transform:none; filter:blur(2px); transition:clip-path .5s cubic-bezier(.16,1,.3,1),filter .5s ease; }
+  .sec-label[data-reveal].revealed { clip-path:inset(0 0% 0 0)!important; filter:none!important; animation:labelFlicker .5s steps(2) both; }
+  @keyframes labelFlicker { 0%{opacity:.4} 40%{opacity:1} 55%{opacity:.6} 70%{opacity:1} 85%{opacity:.8} 100%{opacity:1} }
+
+  /* h2 headings — horizontal wipe */
+  h2[data-reveal] { clip-path:inset(0 100% 0 0); opacity:1; transform:none; transition:clip-path .65s cubic-bezier(.16,1,.3,1); }
+  h2[data-reveal].revealed { clip-path:inset(0 0% 0 0)!important; }
+
+  /* Job rows */
+  .job-row[data-reveal] { transform:translateX(-32px); opacity:0; transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1); }
+  .job-row[data-reveal].revealed { transform:none!important; opacity:1!important; }
+
+  /* Timeline items */
+  .tl-item[data-reveal] { transform:translateX(-24px); opacity:0; transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1); }
+  .tl-item[data-reveal].revealed { transform:none!important; opacity:1!important; }
+
+  /* Cert categories */
+  .cert-category[data-reveal] { transform:translateY(28px); opacity:0; transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1); }
+  .cert-category[data-reveal].revealed { transform:none!important; opacity:1!important; }
+
+  /* Skill groups */
+  .skill-group[data-reveal] { transform:translateX(36px); opacity:0; transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1); }
+  .skill-group[data-reveal].revealed { transform:none!important; opacity:1!important; }
+
+  /* Tool categories */
+  .tool-category[data-reveal] { transform:translateY(24px) scale(.97); opacity:0; transition:opacity .6s cubic-bezier(.34,1.2,.64,1),transform .6s cubic-bezier(.34,1.2,.64,1); }
+  .tool-category[data-reveal].revealed { transform:none!important; opacity:1!important; }
+
+  /* Project cards */
+  .proj-card[data-reveal] { transform:translateY(32px) scale(.95); opacity:0; transition:opacity .65s cubic-bezier(.34,1.2,.64,1),transform .65s cubic-bezier(.34,1.2,.64,1); }
+  .proj-card[data-reveal].revealed { transform:none!important; opacity:1!important; }
 </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
@@ -670,7 +712,7 @@
 </div>
 
 <!-- MOBILE NAV MENU (full-screen overlay) -->
-<div class="nav-mobile-menu" id="navMobileMenu">
+<div class="nav-mobile-menu" id="navMobileMenu" onclick="if(event.target===this)closeMenu()">
   <div class="nav-mobile-inner">
     <a class="nav-mobile-item" href="#education"      onclick="closeMenu()"><span class="nav-mobile-num">01</span><span class="nav-mobile-label">Education</span><span class="nav-mobile-arrow">&#x2192;</span></a>
     <a class="nav-mobile-item" href="#certifications" onclick="closeMenu()"><span class="nav-mobile-num">02</span><span class="nav-mobile-label">Certifications</span><span class="nav-mobile-arrow">&#x2192;</span></a>
@@ -680,6 +722,7 @@
     <a class="nav-mobile-item" href="https://arrianedorisnuevo.github.io/contact" onclick="closeMenu()"><span class="nav-mobile-num">06</span><span class="nav-mobile-label">Contact</span><span class="nav-mobile-arrow">&#x2197;</span></a>
   </div>
   <div class="nav-mobile-footer">
+    <button onclick="closeMenu()" style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-dim);background:transparent;border:1px solid var(--border2);padding:0.35rem 0.9rem;border-radius:2px;cursor:pointer;transition:color 0.2s,border-color 0.2s;" onmouseenter="this.style.color='var(--cyan)';this.style.borderColor='var(--cyan)'" onmouseleave="this.style.color='';this.style.borderColor=''">&#x2715; Close</button>
     <div class="nav-mobile-footer-brand"><span>arriane</span>.dev // ADLN</div>
     <div class="nav-mobile-status"><div class="nav-mobile-status-dot"></div>portfolio_online</div>
   </div>
@@ -760,37 +803,33 @@
 
 <!-- EDUCATION -->
 <section id="education">
-  <div class="sec-label">01 // education</div>
-  <h2>Educational Attainment</h2>
+  <div class="sec-label" data-reveal="fade">01 // education</div>
+  <h2 data-reveal="up">Educational Attainment</h2>
   <div class="timeline">
     <div class="tl-line"></div>
-    <div class="tl-item">
+    <div class="tl-item" data-reveal="left">
       <div class="tl-node"></div>
-      <div class="tl-period">[ 2014 ] &mdash; [ 2018 ]</div>
-      <div class="tl-degree">[ Bachelor of Science in Business Administration Major in Marketing Management]</div>
-      <div class="tl-school">[ Immaculate Conception Archdiocesan School ] &middot; [ Zamboanga City]</div>
-      <div class="tl-desc"></div>
+      <div class="tl-period">2014 — 2018</div>
+      <div class="tl-degree">Bachelor of Science in Business Administration, Major in Marketing Management</div>
+      <div class="tl-school">Immaculate Conception Archdiocesan School &middot; Zamboanga City</div>
     </div>
-    <div class="tl-item">
+    <div class="tl-item" data-reveal="left">
       <div class="tl-node"></div>
-      <div class="tl-period">[ 2009 ] &mdash; [ 2013 ]</div>
-      <div class="tl-degree">[ Bachelor of Arts in Economics ]</div>
-      <div class="tl-school">[ Ateneo de Zamboanga University] &middot; [ Zamboanga City ]</div>
-      <div class="tl-desc">[ Freshman Representative ]</div>
+      <div class="tl-period">2009 — 2013</div>
+      <div class="tl-degree">Bachelor of Arts in Economics</div>
+      <div class="tl-school">Ateneo de Zamboanga University &middot; Zamboanga City</div>
     </div>
-    <div class="tl-item">
+    <div class="tl-item" data-reveal="left">
       <div class="tl-node"></div>
-      <div class="tl-period">[2005 - 2009]</div>
-      <div class="tl-degree">[ High School Diploma ]</div>
-      <div class="tl-school">[ Ateneo de Zamboanga University] &middot; [ Zamboanga City ]</div>
-      <div class="tl-desc">[ Old Curriculum. ]</div>
+      <div class="tl-period">2005 — 2009</div>
+      <div class="tl-degree">High School Diploma</div>
+      <div class="tl-school">Ateneo de Zamboanga University &middot; Zamboanga City</div>
     </div>
-<div class="tl-item">
+    <div class="tl-item" data-reveal="left">
       <div class="tl-node"></div>
-      <div class="tl-period">[1999 - 2005]</div>
-      <div class="tl-degree">[ Grade School ]</div>
-      <div class="tl-school">[ Zion Evangelical School] &middot; [ Zamboanga City ]</div>
-      <div class="tl-desc"></div>
+      <div class="tl-period">2000 — 2005</div>
+      <div class="tl-degree">Grade School</div>
+      <div class="tl-school">Zion Evangelical School &middot; Zamboanga City</div>
     </div>
   </div>
 </section>
@@ -799,8 +838,8 @@
 
 <!-- CERTIFICATIONS -->
 <section id="certifications">
-  <div class="sec-label">02 // certifications</div>
-  <h2>Certifications</h2>
+  <div class="sec-label" data-reveal="fade">02 // certifications</div>
+  <h2 data-reveal="up">Certifications</h2>
 
   <!-- SVG icons used in toggle buttons -->
   <svg style="display:none">
@@ -812,7 +851,7 @@
   <!-- ══════════════════════════════════════════
        CATEGORY 1: Canva (Design School) — 1 cert
   ═══════════════════════════════════════════ -->
-  <div class="cert-category">
+  <div class="cert-category" data-reveal="up">
     <div class="cert-cat-header" onclick="toggleCategory(this)">
       <div class="cert-cat-left">
         <div class="cert-cat-name">Canva (Design School)</div>
@@ -870,7 +909,7 @@
   <!-- ══════════════════════════════════════════
        CATEGORY 2: freeCodeCamp.org — 1 cert
   ═══════════════════════════════════════════ -->
-  <div class="cert-category">
+  <div class="cert-category" data-reveal="up">
     <div class="cert-cat-header" onclick="toggleCategory(this)">
       <div class="cert-cat-left">
         <div class="cert-cat-name">freeCodeCamp.org</div>
@@ -926,7 +965,7 @@
   <!-- ══════════════════════════════════════════
        CATEGORY 3: Google (Applied Digital Skills) — 7 certs
   ═══════════════════════════════════════════ -->
-  <div class="cert-category">
+  <div class="cert-category" data-reveal="up">
     <div class="cert-cat-header" onclick="toggleCategory(this)">
       <div class="cert-cat-left">
         <div class="cert-cat-name">Google (Applied Digital Skills)</div>
@@ -1108,7 +1147,7 @@
   <!-- ══════════════════════════════════════════
        CATEGORY 4: Philippine Government Institutions (TESDA · DICT) — 2 certs
   ═══════════════════════════════════════════ -->
-  <div class="cert-category">
+  <div class="cert-category" data-reveal="up">
     <div class="cert-cat-header" onclick="toggleCategory(this)">
       <div class="cert-cat-left">
         <div class="cert-cat-name">Philippine Government Institutions (TESDA &middot; DICT)</div>
@@ -1188,11 +1227,11 @@
   <!-- ══════════════════════════════════════════
        CATEGORY 5: Sound Native Virtual Academy — placeholder
   ═══════════════════════════════════════════ -->
-  <div class="cert-category">
+  <div class="cert-category" data-reveal="up">
     <div class="cert-cat-header" onclick="toggleCategory(this)">
       <div class="cert-cat-left">
         <div class="cert-cat-name">Sound Native Virtual Academy</div>
-        <div class="cert-cat-count">[ N ] certs</div>
+        <div class="cert-cat-count">N certs</div>
       </div>
       <div class="cert-cat-right">
         <div class="cert-view-toggle" onclick="event.stopPropagation()">
@@ -1215,8 +1254,8 @@
         <div class="cert-list-item" style="pointer-events:none; opacity:0.4;">
           <div class="cert-list-num">—</div>
           <div class="cert-list-info">
-            <div class="cert-list-name">[ Certification Name ]</div>
-            <div class="cert-list-meta"><span class="cert-list-issuer">Sound Native Virtual Academy</span><span class="cert-list-yr">[ Date ]</span></div>
+            <div class="cert-list-name">Certification Name</div>
+            <div class="cert-list-meta"><span class="cert-list-issuer">Sound Native Virtual Academy</span><span class="cert-list-yr">Date</span></div>
           </div>
         </div>
       </div>
@@ -1229,14 +1268,14 @@
 
 <!-- SKILLS & TOOLS -->
 <section id="skills">
-  <div class="sec-label">03 // capabilities</div>
-  <h2>Skills &amp; Tools</h2>
+  <div class="sec-label" data-reveal="fade">03 // capabilities</div>
+  <h2 data-reveal="up">Skills &amp; Tools</h2>
   <div class="skills-layout">
 
     <!-- LEFT: Skill bars + Core Competencies -->
     <div class="skills-col">
 
-      <div class="skill-group">
+      <div class="skill-group" data-reveal="right">
         <div class="skill-group-title">Design</div>
         <div class="skill-item">
           <div class="skill-item-header"><span class="skill-name">UI / UX Design</span><span class="skill-pct">90%</span></div>
@@ -1256,7 +1295,7 @@
         </div>
       </div>
 
-      <div class="skill-group">
+      <div class="skill-group" data-reveal="right">
         <div class="skill-group-title">Development</div>
         <div class="skill-item">
           <div class="skill-item-header"><span class="skill-name">HTML5 &amp; CSS3</span><span class="skill-pct">90%</span></div>
@@ -1276,7 +1315,7 @@
         </div>
       </div>
 
-      <div class="skill-group">
+      <div class="skill-group" data-reveal="right">
         <div class="skill-group-title">Business &amp; Freelance</div>
         <div class="skill-item">
           <div class="skill-item-header"><span class="skill-name">Client Communication &amp; Management</span><span class="skill-pct">92%</span></div>
@@ -1297,7 +1336,7 @@
       </div>
 
       <!-- Core Competencies as pill chips -->
-      <div class="skill-group">
+      <div class="skill-group" data-reveal="right">
         <div class="skill-group-title">Core Competencies</div>
         <div class="competency-tags">
           <span class="comp-chip">Problem-solving</span>
@@ -1321,7 +1360,7 @@
     <!-- RIGHT: Tool tags -->
     <div class="tools-col">
 
-      <div class="tool-category">
+      <div class="tool-category" data-reveal="up">
         <div class="tool-category-title">Design &amp; Creative Tools</div>
         <div class="tool-tags">
           <span class="tool-tag">Canva</span>
@@ -1334,7 +1373,7 @@
         </div>
       </div>
 
-      <div class="tool-category">
+      <div class="tool-category" data-reveal="up">
         <div class="tool-category-title">Development &amp; Deployment</div>
         <div class="tool-tags">
           <span class="tool-tag">VS Code</span>
@@ -1354,7 +1393,7 @@
         </div>
       </div>
 
-      <div class="tool-category">
+      <div class="tool-category" data-reveal="up">
         <div class="tool-category-title">Productivity &amp; Collaboration</div>
         <div class="tool-tags">
           <span class="tool-tag">Google Workspace</span>
@@ -1368,7 +1407,7 @@
         </div>
       </div>
 
-      <div class="tool-category">
+      <div class="tool-category" data-reveal="up">
         <div class="tool-category-title">Communication &amp; Meetings</div>
         <div class="tool-tags">
           <span class="tool-tag">Slack</span>
@@ -1380,7 +1419,7 @@
         </div>
       </div>
 
-      <div class="tool-category">
+      <div class="tool-category" data-reveal="up">
         <div class="tool-category-title">CRM, LMS &amp; Business Platforms</div>
         <div class="tool-tags">
           <span class="tool-tag">Salesforce</span>
@@ -1402,56 +1441,112 @@
 
 <!-- JOB HISTORY -->
 <section id="jobs">
-  <div class="sec-label">04 // experience</div>
-  <h2>Job History</h2>
+  <div class="sec-label" data-reveal="fade">04 // experience</div>
+  <h2 data-reveal="up">Job History</h2>
   <div class="jobs-list">
-    <div class="job-row">
+
+    <div class="job-row" data-reveal="left">
       <div class="job-meta">
-        <div class="job-yr">[ Year ]</div>
-        <div class="job-dur">[ Duration ]</div>
+        <div class="job-yr">2016</div>
+        <div class="job-dur">Present</div>
       </div>
       <div class="job-vline"></div>
       <div>
-        <div class="job-title">[ Job Title ]</div>
-        <div class="job-company">[ Company / Organization Name ]</div>
-        <div class="job-desc">[ Describe your role, key responsibilities, and notable accomplishments. ]</div>
+        <div class="job-title">Independent Consultant &amp; Digital Creative</div>
+        <div class="job-company">Self-Employed &middot; Remote &middot; June 2016 – Present</div>
+        <div class="job-desc">Delivering end-to-end digital solutions as an independent consultant — spanning UI/UX design, front-end development, and brand identity work. Designs and builds responsive websites using HTML5, CSS3, and JavaScript; produces visual assets including logos, social media creatives, and marketing collateral for clients across various industries. Manages the full client lifecycle from scoping and proposals through delivery and iteration, maintaining a remote-first, async workflow.</div>
       </div>
     </div>
-    <div class="job-row">
+
+    <div class="job-row" data-reveal="left">
       <div class="job-meta">
-        <div class="job-yr">[ Year ]</div>
-        <div class="job-dur">[ Duration ]</div>
+        <div class="job-yr">2022</div>
+        <div class="job-dur">2 yrs</div>
       </div>
       <div class="job-vline"></div>
       <div>
-        <div class="job-title">[ Job Title ]</div>
-        <div class="job-company">[ Company / Organization Name ]</div>
-        <div class="job-desc">[ Describe your role, key responsibilities, and notable accomplishments. ]</div>
+        <div class="job-title">Customer Support Specialist</div>
+        <div class="job-company">Sound Native Virtual Academy &middot; Mandaue City &middot; Jan 2022 – Mar 2024</div>
+        <div class="job-desc">Generated new leads and consistently met weekly quotas of 10 contract renewals and 10 new enrollments. Handled customer queries via phone, email, and chat with accuracy and efficiency. Identified user needs, guided customers through platform-specific features, and maintained internal databases with technical issue logs. Monitored social media for complaints and coordinated resolutions. Mentored junior Customer Support Representatives.</div>
       </div>
     </div>
-    <div class="job-row">
+
+    <div class="job-row" data-reveal="left">
       <div class="job-meta">
-        <div class="job-yr">[ Year ]</div>
-        <div class="job-dur">[ Duration ]</div>
+        <div class="job-yr">2023</div>
+        <div class="job-dur">1 yr</div>
       </div>
       <div class="job-vline"></div>
       <div>
-        <div class="job-title">[ Job Title ]</div>
-        <div class="job-company">[ Company / Organization Name ]</div>
-        <div class="job-desc">[ Describe your role, key responsibilities, and notable accomplishments. ]</div>
+        <div class="job-title">Invigilator (On-Call)</div>
+        <div class="job-company">IDP IELTS PH152C &middot; Zamboanga City &middot; Mar 2023 – Mar 2024</div>
+        <div class="job-desc">Administered standardized IELTS test sessions in a structured, distraction-free environment. Distributed and collected test materials, monitored candidate conduct for compliance, and escorted candidates as required. Maintained accurate submission counts and securely transported all test materials to designated collection points post-session.</div>
       </div>
     </div>
+
+    <div class="job-row" data-reveal="left">
+      <div class="job-meta">
+        <div class="job-yr">2023</div>
+        <div class="job-dur">3 mos</div>
+      </div>
+      <div class="job-vline"></div>
+      <div>
+        <div class="job-title">Customer Service Representative</div>
+        <div class="job-company">Office Partners 360 &middot; Cebu City &middot; Jun 2023 – Aug 2023</div>
+        <div class="job-desc">Engaged customer leads through outbound cold calling and inbound lead follow-up. Qualified and routed opportunities to sales executives, achieving daily quotas of 280 dials and 8 enrollments. Conducted online product demos, researched accounts, identified key stakeholders, and managed a territory-based prospect database to build and close the sales pipeline.</div>
+      </div>
+    </div>
+
+    <div class="job-row" data-reveal="left">
+      <div class="job-meta">
+        <div class="job-yr">2019</div>
+        <div class="job-dur">2 yrs</div>
+      </div>
+      <div class="job-vline"></div>
+      <div>
+        <div class="job-title">Email &amp; Chat Support Representative</div>
+        <div class="job-company">Online English Solutions LTS &middot; Lahug, Cebu &middot; Dec 2019 – Dec 2021</div>
+        <div class="job-desc">Handled multi-channel customer communications via chat, email, and social media. Resolved inquiries, complaints, and account issues with accuracy and empathy. Conducted active listening, clarified ambiguous requests, and de-escalated frustrated customers. Recommended upsell options and participated in ongoing product training to maintain service quality standards.</div>
+      </div>
+    </div>
+
+    <div class="job-row" data-reveal="left">
+      <div class="job-meta">
+        <div class="job-yr">2013</div>
+        <div class="job-dur">6 yrs</div>
+      </div>
+      <div class="job-vline"></div>
+      <div>
+        <div class="job-title">Customer Support &amp; Chat Support Representative</div>
+        <div class="job-company">Better English ELTS &middot; Warsaw, Poland (Remote) &middot; Jun 2013 – Aug 2019</div>
+        <div class="job-desc">Provided multi-channel support via email, phone, and live chat for an international English language training platform. Resolved customer issues and escalated complex cases to senior management. Documented all interactions in a ticketing system, tracked open cases for timely resolution, and delivered consistent, policy-aligned support across global time zones.</div>
+      </div>
+    </div>
+
+    <div class="job-row" data-reveal="left">
+      <div class="job-meta">
+        <div class="job-yr">2018</div>
+        <div class="job-dur">OJT</div>
+      </div>
+      <div class="job-vline"></div>
+      <div>
+        <div class="job-title">Junior Bookkeeper <span style="font-size:0.75rem;font-weight:400;color:var(--text-dim)">(On the Job Training)</span></div>
+        <div class="job-company">Tanya's Hopia, KCC de Zamboanga &middot; Zamboanga City &middot; Mar 2018 – Jul 2018</div>
+        <div class="job-desc">Recorded financial transactions and maintained accurate accounting records. Organized invoices, receipts, and financial documents. Supported account reconciliation, verified financial data, and assisted in preparing basic financial reports under senior bookkeeper supervision.</div>
+      </div>
+    </div>
+
   </div>
-</section>
+</section></section>
 
 <div class="sec-divider"></div>
 
 <!-- PROJECTS -->
 <section id="projects">
-  <div class="sec-label">05 // ventures</div>
-  <h2>Businesses &middot; Projects &middot; Websites</h2>
+  <div class="sec-label" data-reveal="fade">05 // ventures</div>
+  <h2 data-reveal="up">Businesses &middot; Projects &middot; Websites</h2>
   <div class="proj-grid">
-    <div class="proj-card">
+    <div class="proj-card" data-reveal="up">
       <div class="proj-thumb">
         <div class="proj-thumb-bg"></div>
         <div class="proj-thumb-code">BIZ</div>
@@ -1459,12 +1554,12 @@
         <div class="proj-status"><div class="status-dot"></div> Active</div>
       </div>
       <div class="proj-body">
-        <div class="proj-name">[ Business Name ]</div>
-        <div class="proj-desc">[ Short description — what it does, who it serves, your role as owner or founder. ]</div>
+        <div class="proj-name">Business Name</div>
+        <div class="proj-desc">Short description — what it does, who it serves, your role as owner or founder.</div>
         <a href="#" class="proj-link">&#x2197; Visit</a>
       </div>
     </div>
-    <div class="proj-card">
+    <div class="proj-card" data-reveal="up">
       <div class="proj-thumb">
         <div class="proj-thumb-bg"></div>
         <div class="proj-thumb-code">WEB</div>
@@ -1472,12 +1567,12 @@
         <div class="proj-status"><div class="status-dot"></div> Live</div>
       </div>
       <div class="proj-body">
-        <div class="proj-name">[ Website Name ]</div>
-        <div class="proj-desc">[ Technologies used, client, purpose, and your contribution. ]</div>
+        <div class="proj-name">Website Name</div>
+        <div class="proj-desc">Technologies used, client, purpose, and your contribution.</div>
         <a href="#" class="proj-link">&#x2197; View Project</a>
       </div>
     </div>
-    <div class="proj-card">
+    <div class="proj-card" data-reveal="up">
       <div class="proj-thumb">
         <div class="proj-thumb-bg"></div>
         <div class="proj-thumb-code">APP</div>
@@ -1485,12 +1580,12 @@
         <div class="proj-status"><div class="status-dot"></div> Completed</div>
       </div>
       <div class="proj-body">
-        <div class="proj-name">[ Project Name ]</div>
-        <div class="proj-desc">[ Context, challenge, solution, and outcome. ]</div>
+        <div class="proj-name">Project Name</div>
+        <div class="proj-desc">Context, challenge, solution, and outcome.</div>
         <a href="#" class="proj-link">&#x2197; Learn More</a>
       </div>
     </div>
-    <div class="proj-card">
+    <div class="proj-card" data-reveal="up">
       <div class="proj-thumb">
         <div class="proj-thumb-bg"></div>
         <div class="proj-thumb-code">DES</div>
@@ -1498,12 +1593,12 @@
         <div class="proj-status"><div class="status-dot"></div> Delivered</div>
       </div>
       <div class="proj-body">
-        <div class="proj-name">[ Design Project ]</div>
-        <div class="proj-desc">[ Branding, UI/UX, or visual identity work completed. ]</div>
+        <div class="proj-name">Design Project</div>
+        <div class="proj-desc">Branding, UI/UX, or visual identity work completed.</div>
         <a href="#" class="proj-link">&#x2197; View Work</a>
       </div>
     </div>
-    <div class="proj-card">
+    <div class="proj-card" data-reveal="up">
       <div class="proj-thumb">
         <div class="proj-thumb-bg"></div>
         <div class="proj-thumb-code">DEV</div>
@@ -1511,12 +1606,12 @@
         <div class="proj-status"><div class="status-dot"></div> Deployed</div>
       </div>
       <div class="proj-body">
-        <div class="proj-name">[ Dev Project ]</div>
-        <div class="proj-desc">[ Tech stack, scope, features, and key contributions. ]</div>
+        <div class="proj-name">Dev Project</div>
+        <div class="proj-desc">Tech stack, scope, features, and key contributions.</div>
         <a href="#" class="proj-link">&#x2197; View Code</a>
       </div>
     </div>
-    <div class="proj-card">
+    <div class="proj-card" data-reveal="up">
       <div class="proj-thumb">
         <div class="proj-thumb-bg"></div>
         <div class="proj-thumb-code">FREE</div>
@@ -1524,8 +1619,8 @@
         <div class="proj-status"><div class="status-dot"></div> Done</div>
       </div>
       <div class="proj-body">
-        <div class="proj-name">[ Freelance Work ]</div>
-        <div class="proj-desc">[ Deliverables, timeline, and results achieved. ]</div>
+        <div class="proj-name">Freelance Work</div>
+        <div class="proj-desc">Deliverables, timeline, and results achieved.</div>
         <a href="#" class="proj-link">&#x2197; View Project</a>
       </div>
     </div>
@@ -1533,11 +1628,7 @@
 </section>
 
 <!-- FOOTER -->
-<footer>
-  <div>
-    <div class="footer-name">Arriane Doris Nuevo</div>
-    <div class="footer-sub">// freelancer &middot; business owner &middot; web designer &middot; developer</div>
-  </div>
+<footer style="justify-content:center;">
   <div class="footer-copy">&copy; 2026 Arriane Doris Nuevo</div>
 </footer>
 
@@ -1564,13 +1655,37 @@
   // Close menu on Escape key
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && menuOpen) closeMenu(); });
 
-  // SCROLL REVEAL
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  // ── SCROLL REVEAL ──────────────────────────────────────────────────────────
+  (function() {
+    const STAGGER_GROUPS = ['.jobs-list', '.timeline', '.cert-grid-all', '.skills-layout', '.proj-grid'];
+
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+
+        // Calculate stagger delay by sibling index within same parent
+        const siblings = el.parentElement
+          ? [...el.parentElement.children].filter(c => c.hasAttribute('data-reveal'))
+          : [];
+        const idx = siblings.indexOf(el);
+        // Base delay + stagger
+        const delay = idx >= 0 ? (idx * 0.09).toFixed(2) + 's' : '0s';
+        el.style.transitionDelay = delay;
+
+        requestAnimationFrame(() => {
+          el.classList.add('revealed');
+        });
+
+        revealObs.unobserve(el);
+      });
+    }, {
+      threshold: 0.08,
+      rootMargin: '0px 0px -32px 0px'
     });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('section:not(#hero)').forEach(s => obs.observe(s));
+
+    document.querySelectorAll('[data-reveal]').forEach(el => revealObs.observe(el));
+  })();
 
   // NAV ACTIVE
   const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
