@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Arriane Doris Nuevo — Portfolio</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' fill='%23080C10'/%3E%3Crect x='3' y='3' width='42' height='42' fill='none' stroke='%2300DCB4' stroke-width='1.5'/%3E%3Crect x='7' y='7' width='34' height='34' fill='rgba(0,220,180,0.08)'/%3E%3Ctext x='24' y='22' font-family='JetBrains Mono,monospace' font-weight='700' font-size='13' fill='%2300DCB4' text-anchor='middle' dominant-baseline='middle'%3EAD%3C/text%3E%3Ctext x='24' y='36' font-family='JetBrains Mono,monospace' font-weight='700' font-size='13' fill='%2300DCB4' text-anchor='middle' dominant-baseline='middle'%3ELN%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23080C10'/%3E%3Crect x='2' y='2' width='28' height='28' rx='1' fill='none' stroke='%2300DCB4' stroke-width='1.2'/%3E%3Crect x='4' y='4' width='24' height='24' rx='1' fill='rgba(0%2C220%2C180%2C0.07)'/%3E%3Cline x1='2' y1='16' x2='30' y2='16' stroke='%2300DCB4' stroke-width='0.6' opacity='0.3'/%3E%3Ctext x='16' y='13' font-family='monospace' font-weight='700' font-size='9' fill='%2300DCB4' text-anchor='middle' dominant-baseline='middle'%3EAD%3C/text%3E%3Ctext x='16' y='22' font-family='monospace' font-weight='700' font-size='9' fill='%2300DCB4' text-anchor='middle' dominant-baseline='middle'%3ELN%3C/text%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@300;400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -209,8 +209,14 @@
 
   /* Mobile menu footer bar */
   .nav-mobile-footer {
-    padding:1.5rem 2.5rem;
+    padding:1rem 2.5rem 1.5rem;
     border-top:1px solid var(--border2);
+    display:flex; flex-direction:column; gap:0.75rem;
+  }
+  .nav-mobile-footer-top {
+    display:flex; align-items:center; justify-content:flex-end;
+  }
+  .nav-mobile-footer-bottom {
     display:flex; align-items:center; justify-content:space-between;
   }
   .nav-mobile-footer-brand {
@@ -338,11 +344,7 @@
   /* SECTIONS */
   section {
     position:relative; z-index:1; padding:6rem 5rem;
-    opacity:0; transform:translateY(24px);
-    transition:opacity 0.7s ease, transform 0.7s ease;
   }
-  section.visible { opacity:1; transform:none; }
-  #hero { opacity:1; transform:none; }
 
   .sec-label {
     font-family:var(--mono); font-size:0.62rem; letter-spacing:0.2em;
@@ -656,47 +658,54 @@
   }
 
   /* ── SCROLL REVEAL ─────────────────────────────────────────────────────── */
-  [data-reveal] { opacity:0; will-change:transform,opacity,filter; }
-  [data-reveal="up"]    { transform:translateY(48px);  transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1); }
-  [data-reveal="down"]  { transform:translateY(-32px); transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1); }
-  [data-reveal="left"]  { transform:translateX(56px);  transition:opacity .7s  cubic-bezier(.16,1,.3,1),transform .7s  cubic-bezier(.16,1,.3,1); }
-  [data-reveal="right"] { transform:translateX(-56px); transition:opacity .7s  cubic-bezier(.16,1,.3,1),transform .7s  cubic-bezier(.16,1,.3,1); }
-  [data-reveal="scale"] { transform:scale(.88) translateY(20px); transition:opacity .7s cubic-bezier(.34,1.56,.64,1),transform .7s cubic-bezier(.34,1.56,.64,1); }
-  [data-reveal="fade"]  { filter:blur(6px); transform:none; transition:opacity .6s ease,filter .6s ease; }
-  [data-reveal].revealed { opacity:1!important; transform:none!important; filter:none!important; }
+  /* Base: all reveal elements start hidden */
+  [data-reveal] {
+    opacity: 0;
+    transition: opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1), filter 0.6s ease;
+    will-change: transform, opacity;
+  }
+  [data-reveal="up"]    { transform: translateY(40px); }
+  [data-reveal="down"]  { transform: translateY(-28px); }
+  [data-reveal="left"]  { transform: translateX(48px); }
+  [data-reveal="right"] { transform: translateX(-48px); }
+  [data-reveal="fade"]  { transform: none; filter: blur(5px); }
+  [data-reveal="scale"] { transform: scale(0.9) translateY(16px); }
 
-  /* Section labels — scanline wipe + flicker */
-  .sec-label[data-reveal] { clip-path:inset(0 100% 0 0); opacity:1; transform:none; filter:blur(2px); transition:clip-path .5s cubic-bezier(.16,1,.3,1),filter .5s ease; }
-  .sec-label[data-reveal].revealed { clip-path:inset(0 0% 0 0)!important; filter:none!important; animation:labelFlicker .5s steps(2) both; }
-  @keyframes labelFlicker { 0%{opacity:.4} 40%{opacity:1} 55%{opacity:.6} 70%{opacity:1} 85%{opacity:.8} 100%{opacity:1} }
+  /* Revealed state — resets everything */
+  [data-reveal].revealed {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
 
-  /* h2 headings — horizontal wipe */
-  h2[data-reveal] { clip-path:inset(0 100% 0 0); opacity:1; transform:none; transition:clip-path .65s cubic-bezier(.16,1,.3,1); }
-  h2[data-reveal].revealed { clip-path:inset(0 0% 0 0)!important; }
+  /* Section labels: clip-path sweep (opacity stays 1 so they're not hidden by base rule) */
+  .sec-label[data-reveal] {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.55s cubic-bezier(.16,1,.3,1);
+  }
+  .sec-label[data-reveal].revealed {
+    clip-path: inset(0 0% 0 0) !important;
+    animation: secFlicker 0.4s steps(3) 0.1s both;
+  }
+  @keyframes secFlicker {
+    0%  { opacity: 0.3 }
+    33% { opacity: 1   }
+    66% { opacity: 0.7 }
+    100%{ opacity: 1   }
+  }
 
-  /* Job rows */
-  .job-row[data-reveal] { transform:translateX(-32px); opacity:0; transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1); }
-  .job-row[data-reveal].revealed { transform:none!important; opacity:1!important; }
-
-  /* Timeline items */
-  .tl-item[data-reveal] { transform:translateX(-24px); opacity:0; transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1); }
-  .tl-item[data-reveal].revealed { transform:none!important; opacity:1!important; }
-
-  /* Cert categories */
-  .cert-category[data-reveal] { transform:translateY(28px); opacity:0; transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1); }
-  .cert-category[data-reveal].revealed { transform:none!important; opacity:1!important; }
-
-  /* Skill groups */
-  .skill-group[data-reveal] { transform:translateX(36px); opacity:0; transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1); }
-  .skill-group[data-reveal].revealed { transform:none!important; opacity:1!important; }
-
-  /* Tool categories */
-  .tool-category[data-reveal] { transform:translateY(24px) scale(.97); opacity:0; transition:opacity .6s cubic-bezier(.34,1.2,.64,1),transform .6s cubic-bezier(.34,1.2,.64,1); }
-  .tool-category[data-reveal].revealed { transform:none!important; opacity:1!important; }
-
-  /* Project cards */
-  .proj-card[data-reveal] { transform:translateY(32px) scale(.95); opacity:0; transition:opacity .65s cubic-bezier(.34,1.2,.64,1),transform .65s cubic-bezier(.34,1.2,.64,1); }
-  .proj-card[data-reveal].revealed { transform:none!important; opacity:1!important; }
+  /* h2 headings: clip-path sweep (opacity stays 1) */
+  h2[data-reveal] {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.6s cubic-bezier(.16,1,.3,1);
+  }
+  h2[data-reveal].revealed {
+    clip-path: inset(0 0% 0 0) !important;
+  }
 </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
@@ -722,9 +731,13 @@
     <a class="nav-mobile-item" href="https://arrianedorisnuevo.github.io/contact" onclick="closeMenu()"><span class="nav-mobile-num">06</span><span class="nav-mobile-label">Contact</span><span class="nav-mobile-arrow">&#x2197;</span></a>
   </div>
   <div class="nav-mobile-footer">
-    <button onclick="closeMenu()" style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-dim);background:transparent;border:1px solid var(--border2);padding:0.35rem 0.9rem;border-radius:2px;cursor:pointer;transition:color 0.2s,border-color 0.2s;" onmouseenter="this.style.color='var(--cyan)';this.style.borderColor='var(--cyan)'" onmouseleave="this.style.color='';this.style.borderColor=''">&#x2715; Close</button>
-    <div class="nav-mobile-footer-brand"><span>arriane</span>.dev // ADLN</div>
-    <div class="nav-mobile-status"><div class="nav-mobile-status-dot"></div>portfolio_online</div>
+    <div class="nav-mobile-footer-top">
+      <button onclick="closeMenu()" style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-dim);background:transparent;border:1px solid var(--border2);padding:0.4rem 1rem;border-radius:2px;cursor:pointer;transition:color 0.2s,border-color 0.2s;" onmouseenter="this.style.color='var(--cyan)';this.style.borderColor='var(--cyan)'" onmouseleave="this.style.color='';this.style.borderColor=''">&#x2715;&nbsp;&nbsp;Close</button>
+    </div>
+    <div class="nav-mobile-footer-bottom">
+      <div class="nav-mobile-footer-brand"><span>arriane</span>.dev // ADLN</div>
+      <div class="nav-mobile-status"><div class="nav-mobile-status-dot"></div>portfolio_online</div>
+    </div>
   </div>
 </div>
 
@@ -1657,34 +1670,48 @@
 
   // ── SCROLL REVEAL ──────────────────────────────────────────────────────────
   (function() {
-    const STAGGER_GROUPS = ['.jobs-list', '.timeline', '.cert-grid-all', '.skills-layout', '.proj-grid'];
+    var allReveal = document.querySelectorAll('[data-reveal]');
 
-    const revealObs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+    // Safety fallback: if IntersectionObserver fails or takes >3s, show everything
+    var fallbackTimer = setTimeout(function() {
+      allReveal.forEach(function(el) { el.classList.add('revealed'); });
+    }, 3000);
+
+    if (!('IntersectionObserver' in window)) {
+      // Old browser fallback — reveal all immediately
+      clearTimeout(fallbackTimer);
+      allReveal.forEach(function(el) { el.classList.add('revealed'); });
+      return;
+    }
+
+    var revealObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
         if (!entry.isIntersecting) return;
-        const el = entry.target;
+        var el = entry.target;
 
-        // Calculate stagger delay by sibling index within same parent
-        const siblings = el.parentElement
-          ? [...el.parentElement.children].filter(c => c.hasAttribute('data-reveal'))
+        // Stagger siblings within same parent
+        var siblings = el.parentElement
+          ? Array.prototype.filter.call(el.parentElement.children, function(c) {
+              return c.hasAttribute('data-reveal');
+            })
           : [];
-        const idx = siblings.indexOf(el);
-        // Base delay + stagger
-        const delay = idx >= 0 ? (idx * 0.09).toFixed(2) + 's' : '0s';
-        el.style.transitionDelay = delay;
+        var idx = siblings.indexOf(el);
+        el.style.transitionDelay = idx > 0 ? (idx * 0.08).toFixed(2) + 's' : '0s';
 
-        requestAnimationFrame(() => {
+        requestAnimationFrame(function() {
           el.classList.add('revealed');
         });
-
         revealObs.unobserve(el);
+
+        // Clear fallback once first element reveals successfully
+        clearTimeout(fallbackTimer);
       });
     }, {
-      threshold: 0.08,
-      rootMargin: '0px 0px -32px 0px'
+      threshold: 0,           // trigger as soon as ANY part enters viewport
+      rootMargin: '0px 0px 0px 0px'
     });
 
-    document.querySelectorAll('[data-reveal]').forEach(el => revealObs.observe(el));
+    allReveal.forEach(function(el) { revealObs.observe(el); });
   })();
 
   // NAV ACTIVE
