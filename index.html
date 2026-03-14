@@ -260,19 +260,24 @@
   h1 .first { display:block; color:var(--text-mid); font-weight:300; font-size:0.55em; letter-spacing:0.05em; margin-bottom:0.3rem; }
   h1 .last  { color:var(--cyan); }
 
-  .hero-roles { margin:2rem 0; }
+  .hero-roles { margin:2rem 0; min-height:2.4rem; }
   .role-typewriter-wrap {
     display:inline-flex; align-items:center; gap:0;
     font-family:var(--mono); font-size:0.72rem; letter-spacing:0.14em;
     text-transform:uppercase;
     background:var(--surface); border:1px solid var(--border);
     padding:0.45rem 1rem; border-radius:2px;
-    position:relative; overflow:hidden;
+    position:fixed; bottom:1.5rem; left:5rem; z-index:150;
+    overflow:hidden;
+    box-shadow:0 4px 24px rgba(0,0,0,0.5), 0 0 16px rgba(0,220,180,0.06);
   }
   .role-typewriter-wrap::before {
     content:''; position:absolute; top:0; left:0; right:0;
     height:1px; background:linear-gradient(90deg,transparent,var(--cyan),transparent);
     opacity:0.5;
+  }
+  @media(max-width:768px){
+    .role-typewriter-wrap { left:1rem; right:1rem; bottom:1rem; }
   }
   .role-prefix {
     color:var(--text-dim); margin-right:0.5em; flex-shrink:0;
@@ -1503,9 +1508,9 @@
         <div class="proj-status"><div class="status-dot"></div> Active</div>
       </div>
       <div class="proj-body">
-        <div class="proj-name">Business Name</div>
-        <div class="proj-desc">Short description — what it does, who it serves, your role as owner or founder.</div>
-        <a href="#" class="proj-link">&#x2197; Visit</a>
+        <div class="proj-name">Charito's Food &amp; Beverage</div>
+        <div class="proj-desc">A Filipino food business in Zamboanga City serving home-style meals. Owned and operated passively — a manager handles day-to-day ops, generating income independent of my active work hours.</div>
+        <a href="https://charitosfoodandbeverage.github.io" target="_blank" rel="noopener" class="proj-link">&#x2197; Visit</a>
       </div>
     </div>
     <div class="proj-card" data-reveal="up">
@@ -1516,22 +1521,22 @@
         <div class="proj-status"><div class="status-dot"></div> Live</div>
       </div>
       <div class="proj-body">
-        <div class="proj-name">Website Name</div>
-        <div class="proj-desc">Technologies used, client, purpose, and your contribution.</div>
-        <a href="#" class="proj-link">&#x2197; View Project</a>
+        <div class="proj-name">NexGenix Creative Solutions</div>
+        <div class="proj-desc">Full-service agency site I designed, built, and maintain. Built on GitHub Pages with HTML5, CSS3, and JavaScript — showcasing web design, UI/UX, branding, and front-end development services.</div>
+        <a href="https://nexgenixcreativesolutions.github.io" target="_blank" rel="noopener" class="proj-link">&#x2197; View Site</a>
       </div>
     </div>
     <div class="proj-card" data-reveal="up">
       <div class="proj-thumb">
         <div class="proj-thumb-bg"></div>
-        <div class="proj-thumb-code">APP</div>
-        <span class="proj-type">Project</span>
-        <div class="proj-status"><div class="status-dot"></div> Completed</div>
+        <div class="proj-thumb-code">LMS</div>
+        <span class="proj-type">Development</span>
+        <div class="proj-status"><div class="status-dot"></div> In Progress</div>
       </div>
       <div class="proj-body">
-        <div class="proj-name">Project Name</div>
-        <div class="proj-desc">Context, challenge, solution, and outcome.</div>
-        <a href="#" class="proj-link">&#x2197; Learn More</a>
+        <div class="proj-name">NexGenix Business School LMS</div>
+        <div class="proj-desc">Full-stack learning management system built across two GitHub Pages sites sharing a single Supabase backend. 25 courses across 4 categories with authentication, role-based access, and an admin panel.</div>
+        <a href="https://nexgenixbusinessschool.github.io" target="_blank" rel="noopener" class="proj-link">&#x2197; View Project</a>
       </div>
     </div>
     <div class="proj-card" data-reveal="up">
@@ -1542,35 +1547,35 @@
         <div class="proj-status"><div class="status-dot"></div> Delivered</div>
       </div>
       <div class="proj-body">
-        <div class="proj-name">Design Project</div>
-        <div class="proj-desc">Branding, UI/UX, or visual identity work completed.</div>
-        <a href="#" class="proj-link">&#x2197; View Work</a>
+        <div class="proj-name">Charito's Brand Identity</div>
+        <div class="proj-desc">Designed the full visual identity for Charito's Food &amp; Beverage — logo, color system, typography, and menu layout — built to feel warm and local while remaining clean enough for digital use.</div>
+        <a href="https://charitosfoodandbeverage.github.io" target="_blank" rel="noopener" class="proj-link">&#x2197; View Work</a>
       </div>
     </div>
     <div class="proj-card" data-reveal="up">
       <div class="proj-thumb">
         <div class="proj-thumb-bg"></div>
-        <div class="proj-thumb-code">DEV</div>
-        <span class="proj-type">Development</span>
-        <div class="proj-status"><div class="status-dot"></div> Deployed</div>
+        <div class="proj-thumb-code">EDU</div>
+        <span class="proj-type">Business</span>
+        <div class="proj-status"><div class="status-dot"></div> Active</div>
       </div>
       <div class="proj-body">
-        <div class="proj-name">Dev Project</div>
-        <div class="proj-desc">Tech stack, scope, features, and key contributions.</div>
-        <a href="#" class="proj-link">&#x2197; View Code</a>
+        <div class="proj-name">NexGenix Business School</div>
+        <div class="proj-desc">Education arm of NexGenix focused on practical digital and business skills. Courses cover freelancing, branding, web basics, and entrepreneurship — targeting Filipinos entering the digital economy.</div>
+        <a href="https://nexgenixbusinessschool.github.io" target="_blank" rel="noopener" class="proj-link">&#x2197; Visit</a>
       </div>
     </div>
     <div class="proj-card" data-reveal="up">
       <div class="proj-thumb">
         <div class="proj-thumb-bg"></div>
-        <div class="proj-thumb-code">FREE</div>
+        <div class="proj-thumb-code">LANCE</div>
         <span class="proj-type">Freelance</span>
-        <div class="proj-status"><div class="status-dot"></div> Done</div>
+        <div class="proj-status"><div class="status-dot"></div> Delivered</div>
       </div>
       <div class="proj-body">
-        <div class="proj-name">Freelance Work</div>
-        <div class="proj-desc">Deliverables, timeline, and results achieved.</div>
-        <a href="#" class="proj-link">&#x2197; View Project</a>
+        <div class="proj-name">Client Web Projects</div>
+        <div class="proj-desc">Multi-page responsive websites delivered for local Zamboanga City businesses under NexGenix. Scope typically covers UI design, HTML/CSS build, content layout, and GitHub Pages deployment.</div>
+        <a href="https://nexgenixcreativesolutions.github.io" target="_blank" rel="noopener" class="proj-link">&#x2197; View Agency</a>
       </div>
     </div>
   </div>
