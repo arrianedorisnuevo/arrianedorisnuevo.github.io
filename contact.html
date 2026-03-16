@@ -37,7 +37,6 @@
     overflow-x: hidden;
   }
 
-  /* GRID BG */
   body::before {
     content: '';
     position: fixed; inset: 0;
@@ -56,7 +55,6 @@
     pointer-events: none; z-index: 0;
   }
 
-  /* NAV */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 200;
     display: flex; justify-content: space-between; align-items: center;
@@ -92,7 +90,6 @@
   .nav-back:hover { color: var(--cyan); }
   .nav-back::before { content: '←'; }
 
-  /* MAIN LAYOUT */
   main {
     position: relative; z-index: 1;
     min-height: 100vh;
@@ -101,7 +98,6 @@
     padding-top: 64px;
   }
 
-  /* LEFT PANEL */
   .left-panel {
     padding: 5rem 4rem 5rem 5rem;
     display: flex; flex-direction: column; justify-content: center;
@@ -123,7 +119,6 @@
     color: var(--white); letter-spacing: -0.02em;
     margin-bottom: 1.5rem;
   }
-
   .panel-heading span { color: var(--cyan); }
 
   .panel-desc {
@@ -149,7 +144,6 @@
   .ci-item a { color: var(--text-mid); text-decoration: none; transition: color 0.2s; }
   .ci-item a:hover { color: var(--cyan); }
 
-  /* PULSE INDICATOR */
   .availability {
     display: flex; align-items: center; gap: 0.7rem;
     margin-top: 2.5rem; padding-top: 2rem;
@@ -167,7 +161,6 @@
 
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-  /* RIGHT PANEL — FORM */
   .right-panel {
     padding: 5rem 5rem 5rem 4rem;
     display: flex; flex-direction: column; justify-content: center;
@@ -194,7 +187,6 @@
     letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--text-dim);
   }
-
   .field label span { color: var(--cyan); }
 
   .field input,
@@ -233,17 +225,14 @@
   }
 
   .field textarea { resize: vertical; min-height: 130px; line-height: 1.6; }
-
   .field select option { background: var(--surface2); color: var(--text); }
 
-  /* CHARACTER COUNT */
   .field-footer {
     display: flex; justify-content: flex-end;
     font-family: var(--mono); font-size: 0.58rem;
     color: var(--text-dim); margin-top: 0.3rem;
   }
 
-  /* SUBMIT BTN */
   .submit-btn {
     width: 100%; margin-top: 2rem;
     padding: 1rem 2rem;
@@ -256,9 +245,14 @@
     transition: background 0.3s, box-shadow 0.3s;
   }
 
-  .submit-btn:hover {
+  .submit-btn:hover:not(:disabled) {
     background: #00f5c8;
     box-shadow: 0 0 30px var(--cyan-glow);
+  }
+
+  .submit-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
   }
 
   .submit-btn::after {
@@ -269,9 +263,8 @@
     transition: transform 0.5s ease;
   }
 
-  .submit-btn:hover::after { transform: translateX(100%); }
+  .submit-btn:hover:not(:disabled)::after { transform: translateX(100%); }
 
-  /* SUCCESS MESSAGE */
   .success-msg {
     display: none;
     background: rgba(34,197,94,0.08);
@@ -285,7 +278,20 @@
   }
   .success-msg.show { display: block; }
 
-  /* ── SOCIALS SECTION ────────────────────────────── */
+  .error-msg {
+    display: none;
+    background: rgba(255,107,107,0.08);
+    border: 1px solid rgba(255,107,107,0.3);
+    padding: 1rem 1.5rem;
+    margin-top: 1rem;
+    font-family: var(--mono); font-size: 0.7rem;
+    color: var(--error);
+    letter-spacing: 0.08em;
+    line-height: 1.6;
+  }
+  .error-msg.show { display: block; }
+
+  /* SOCIALS */
   .socials-section {
     position: relative; z-index: 1;
     background: var(--bg2);
@@ -293,21 +299,18 @@
     padding: 4rem 5rem;
   }
 
-  .socials-header {
-    display: flex; align-items: center; gap: 1rem;
-    margin-bottom: 2.5rem;
-  }
-
   .socials-label {
     font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.2em;
     text-transform: uppercase; color: var(--cyan);
     display: flex; align-items: center; gap: 0.8rem;
+    margin-bottom: 1rem;
   }
   .socials-label::after { content: ''; flex: 1; max-width: 50px; height: 1px; background: var(--cyan); opacity: 0.4; }
 
   .socials-title {
     font-family: var(--display); font-size: 1.6rem; font-weight: 700;
     color: var(--white); letter-spacing: -0.02em;
+    margin-bottom: 2rem;
   }
 
   .socials-grid {
@@ -368,7 +371,6 @@
   }
   .social-card:hover .social-arrow { opacity: 1; transform: translateX(0); }
 
-  /* FOOTER */
   .page-footer {
     position: relative; z-index: 1;
     background: var(--bg);
@@ -398,7 +400,6 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">
     <div class="nav-logo-mark">ADLN</div>
@@ -407,7 +408,6 @@
   <a href="index.html" class="nav-back">Back to Portfolio</a>
 </nav>
 
-<!-- MAIN: LEFT + RIGHT -->
 <main>
 
   <!-- LEFT PANEL -->
@@ -451,7 +451,7 @@
   <div class="right-panel">
     <div class="form-title">Send a Message</div>
 
-    <form id="contactForm" onsubmit="handleSubmit(event)" novalidate>
+    <form id="contactForm" novalidate>
 
       <div class="form-row">
         <div class="field">
@@ -486,11 +486,11 @@
         <label>Budget Range</label>
         <select name="budget">
           <option value="" disabled selected>Select a budget range...</option>
-          <option value="below-5k">Below ₱5,000</option>
-          <option value="5k-15k">₱5,000 – ₱15,000</option>
-          <option value="15k-30k">₱15,000 – ₱30,000</option>
-          <option value="30k-50k">₱30,000 – ₱50,000</option>
-          <option value="above-50k">Above ₱50,000</option>
+          <option value="below-5k">Below &#8369;5,000</option>
+          <option value="5k-15k">&#8369;5,000 &ndash; &#8369;15,000</option>
+          <option value="15k-30k">&#8369;15,000 &ndash; &#8369;30,000</option>
+          <option value="30k-50k">&#8369;30,000 &ndash; &#8369;50,000</option>
+          <option value="above-50k">Above &#8369;50,000</option>
           <option value="discuss">Let's discuss</option>
         </select>
       </div>
@@ -501,13 +501,17 @@
         <div class="field-footer"><span id="charCount">0</span> / 1000</div>
       </div>
 
-      <button type="submit" class="submit-btn" id="submitBtn">
-        ↗ Send Message
+      <button type="button" class="submit-btn" id="submitBtn" onclick="handleSubmit()">
+        &#8599; Send Message
       </button>
 
       <div class="success-msg" id="successMsg">
-        ✓ Message sent successfully!<br>
+        &#10003; Message sent successfully!<br>
         Thank you for reaching out. I'll get back to you within 24 hours.
+      </div>
+
+      <div class="error-msg" id="errorMsg">
+        &#10007; Something went wrong. Please try again or email me directly at arrianedoris.ln@gmail.com
       </div>
 
     </form>
@@ -518,9 +522,7 @@
 <!-- SOCIALS -->
 <section class="socials-section">
   <div class="socials-label">Connect</div>
-  <div style="margin-bottom:2rem;">
-    <div class="socials-title">Find Me Online</div>
-  </div>
+  <div class="socials-title">Find Me Online</div>
   <div class="socials-grid">
 
     <!-- GitHub -->
@@ -532,7 +534,7 @@
         <div class="social-name">GitHub</div>
         <div class="social-handle">@arrianedorisnuevo</div>
       </div>
-      <div class="social-arrow">↗</div>
+      <div class="social-arrow">&#8599;</div>
     </a>
 
     <!-- LinkedIn -->
@@ -544,7 +546,7 @@
         <div class="social-name">LinkedIn</div>
         <div class="social-handle">Arriane Doris Nuevo</div>
       </div>
-      <div class="social-arrow">↗</div>
+      <div class="social-arrow">&#8599;</div>
     </a>
 
     <!-- Facebook -->
@@ -556,7 +558,7 @@
         <div class="social-name">Facebook</div>
         <div class="social-handle">Arriane Doris Nuevo</div>
       </div>
-      <div class="social-arrow">↗</div>
+      <div class="social-arrow">&#8599;</div>
     </a>
 
   </div>
@@ -566,29 +568,33 @@
 <footer class="page-footer">
   <div>
     <div class="footer-name">Arriane Doris Nuevo</div>
-    <div class="footer-sub">// freelancer · business owner · web designer · developer</div>
+    <div class="footer-sub">// freelancer &middot; business owner &middot; web designer &middot; developer</div>
   </div>
-  <div class="footer-copy">© 2026 Arriane Doris Nuevo</div>
+  <div class="footer-copy">&copy; 2026 Arriane Doris Nuevo</div>
 </footer>
 
 <script>
   function updateCount() {
-    const ta = document.getElementById('messageField');
-    const count = document.getElementById('charCount');
+    var ta = document.getElementById('messageField');
+    var count = document.getElementById('charCount');
     count.textContent = ta.value.length;
     if (ta.value.length > 1000) ta.value = ta.value.substring(0, 1000);
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    const form = document.getElementById('contactForm');
-    const btn = document.getElementById('submitBtn');
-    const msg = document.getElementById('successMsg');
+  async function handleSubmit() {
+    var form = document.getElementById('contactForm');
+    var btn = document.getElementById('submitBtn');
+    var successMsg = document.getElementById('successMsg');
+    var errorMsg = document.getElementById('errorMsg');
 
-    // Basic validation
-    const required = form.querySelectorAll('[required]');
-    let valid = true;
-    required.forEach(el => {
+    // Hide previous messages
+    successMsg.classList.remove('show');
+    errorMsg.classList.remove('show');
+
+    // Validate required fields
+    var required = form.querySelectorAll('[required]');
+    var valid = true;
+    required.forEach(function(el) {
       el.style.borderColor = '';
       if (!el.value.trim()) {
         el.style.borderColor = '#FF6B6B';
@@ -597,17 +603,30 @@
     });
     if (!valid) return;
 
-    // Simulate send
+    // Sending state
     btn.textContent = 'Sending...';
     btn.disabled = true;
-    btn.style.opacity = '0.7';
 
-    setTimeout(() => {
-      btn.style.display = 'none';
-      msg.classList.add('show');
-      form.reset();
-      document.getElementById('charCount').textContent = '0';
-    }, 1200);
+    try {
+      var response = await fetch('https://formspree.io/f/mzdjjkya', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      });
+
+      if (response.ok) {
+        btn.style.display = 'none';
+        successMsg.classList.add('show');
+        form.reset();
+        document.getElementById('charCount').textContent = '0';
+      } else {
+        throw new Error('Server error');
+      }
+    } catch (err) {
+      btn.textContent = '↗ Send Message';
+      btn.disabled = false;
+      errorMsg.classList.add('show');
+    }
   }
 </script>
 </body>
