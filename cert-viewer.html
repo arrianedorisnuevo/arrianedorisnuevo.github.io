@@ -66,15 +66,19 @@
   .nav-logo-text { font-family:var(--mono); font-size:0.72rem; letter-spacing:0.1em; color:var(--text-mid); }
   .nav-logo-text span { color:var(--cyan); }
 
-  .nav-back {
+  .nav-right { display:flex; align-items:center; gap:0.6rem; }
+
+  .nav-back, .nav-toggle-list {
     display:flex; align-items:center; gap:0.5rem;
     font-family:var(--mono); font-size:0.62rem; letter-spacing:0.14em; text-transform:uppercase;
     color:var(--text-dim); text-decoration:none;
     border:1px solid var(--border2); padding:0.35rem 0.8rem; border-radius:2px;
     transition:color 0.25s, border-color 0.25s, background 0.25s;
+    background:transparent; cursor:pointer;
   }
-  .nav-back:hover { color:var(--cyan); border-color:var(--cyan); background:var(--cyan-dim); }
+  .nav-back:hover, .nav-toggle-list:hover { color:var(--cyan); border-color:var(--cyan); background:var(--cyan-dim); }
   .nav-back::before { content:'←'; font-size:0.8rem; }
+  .nav-toggle-list.is-hidden { color:var(--cyan); border-color:var(--cyan); background:var(--cyan-dim); }
 
   /* MAIN */
   main {
@@ -99,13 +103,20 @@
     gap:0;
     max-width:1300px; width:100%; margin:0 auto;
     padding:3rem 3rem 4rem;
+    transition: grid-template-columns 0.3s ease;
   }
+  .cert-viewer.sidebar-hidden { grid-template-columns: 0 1fr; }
 
   /* LEFT: cert list panel */
   .cert-list-panel {
     padding-right:2rem;
     border-right:1px solid var(--border2);
     display:flex; flex-direction:column; gap:0;
+    overflow:hidden;
+    transition: opacity 0.25s ease, padding 0.3s ease, border-color 0.3s ease;
+  }
+  .cert-viewer.sidebar-hidden .cert-list-panel {
+    opacity:0; padding:0; border-color:transparent; pointer-events:none;
   }
   .clp-header {
     font-family:var(--mono); font-size:0.58rem; letter-spacing:0.2em;
@@ -113,6 +124,7 @@
     display:flex; align-items:center; gap:0.6rem;
     padding-bottom:1rem; margin-bottom:0.5rem;
     border-bottom:1px solid var(--border2);
+    white-space:nowrap;
   }
   .clp-header::before { content:'//'; opacity:0.5; }
   .clp-group { margin-bottom:1.4rem; }
@@ -121,6 +133,7 @@
     text-transform:uppercase; color:var(--text-dim);
     padding:0.5rem 0 0.4rem; margin-bottom:0.2rem;
     border-bottom:1px solid rgba(255,255,255,0.04);
+    white-space:nowrap;
   }
   .clp-item {
     display:flex; flex-direction:column; gap:0.15rem;
@@ -130,6 +143,7 @@
     transition:border-color 0.2s, background 0.2s;
     border-radius:0 2px 2px 0;
     cursor:pointer;
+    white-space:nowrap;
   }
   .clp-item:hover { border-left-color:rgba(0,220,180,0.4); background:rgba(0,220,180,0.04); }
   .clp-item.active { border-left-color:var(--cyan); background:rgba(0,220,180,0.07); }
@@ -137,6 +151,7 @@
     font-family:var(--display); font-size:0.78rem; font-weight:600;
     color:var(--text-mid); line-height:1.3;
     transition:color 0.2s;
+    white-space:normal;
   }
   .clp-item:hover .clp-item-name,
   .clp-item.active .clp-item-name { color:var(--text); }
@@ -155,7 +170,10 @@
     padding-left:2.5rem;
     display:flex; flex-direction:column;
     grid-column:2;
+    min-width:0;
+    transition: padding-left 0.3s ease;
   }
+  .cert-viewer.sidebar-hidden .cert-detail { padding-left:0.5rem; }
 
   /* Breadcrumb */
   .breadcrumb {
@@ -168,7 +186,7 @@
   .breadcrumb span { color:var(--cyan); }
 
   /* Header */
-  .cert-header { margin-bottom:1.8rem; }
+  .cert-header { margin-bottom:1.8rem; display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
   .cert-org-label {
     font-family:var(--mono); font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase;
     color:var(--cyan); display:flex; align-items:center; gap:0.8rem; margin-bottom:0.5rem;
@@ -185,6 +203,17 @@
   }
   .cert-meta-item { display:flex; align-items:center; gap:0.4rem; }
   .cert-meta-dot { width:4px; height:4px; background:var(--cyan); border-radius:50%; flex-shrink:0; }
+
+  /* Prev/Next pager */
+  .cert-pager { display:flex; align-items:center; gap:0.5rem; flex-shrink:0; }
+  .pager-btn {
+    display:flex; align-items:center; gap:0.4rem;
+    font-family:var(--mono); font-size:0.58rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--text-dim); border:1px solid var(--border2); padding:0.4rem 0.7rem; border-radius:2px;
+    text-decoration:none; transition:all 0.2s;
+  }
+  .pager-btn:hover { color:var(--cyan); border-color:var(--cyan); background:var(--cyan-dim); }
+  .pager-btn.disabled { opacity:0.25; pointer-events:none; }
 
   /* PDF canvas area */
   .cert-embed-wrap {
@@ -212,7 +241,10 @@
   #cert-canvas {
     display:block; max-width:100%; max-height:72vh;
     box-shadow:0 4px 40px rgba(0,0,0,0.5);
+    cursor: zoom-in;
+    transition: filter 0.2s;
   }
+  #cert-canvas:hover { filter:brightness(1.04); }
   .cv-loading {
     display:flex; flex-direction:column; align-items:center; gap:1rem;
     font-family:'JetBrains Mono',monospace; font-size:0.62rem;
@@ -225,6 +257,16 @@
     animation:spin 0.8s linear infinite;
   }
   @keyframes spin { to { transform:rotate(360deg); } }
+
+  .cert-expand-hint {
+    position:absolute; top:12px; right:12px; z-index:3;
+    font-family:var(--mono); font-size:0.55rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--text-mid); background:rgba(8,12,16,0.75); border:1px solid var(--border2);
+    padding:0.4rem 0.7rem; border-radius:2px; cursor:pointer;
+    transition:color 0.2s, border-color 0.2s; backdrop-filter:blur(4px);
+    display:flex; align-items:center; gap:0.4rem;
+  }
+  .cert-expand-hint:hover { color:var(--cyan); border-color:var(--cyan); }
 
   /* Action bar */
   .cert-actions {
@@ -249,6 +291,48 @@
   .not-found-code { font-family:var(--mono); font-size:4rem; font-weight:700; color:rgba(0,220,180,0.1); }
   .not-found-msg  { font-family:var(--mono); font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-dim); }
 
+  /* ─── LIGHTBOX ────────────────────────────────────────────────────────── */
+  .lightbox {
+    position:fixed; inset:0; z-index:1000;
+    background:rgba(3,6,9,0.97); backdrop-filter:blur(8px);
+    display:none; flex-direction:column;
+  }
+  .lightbox.open { display:flex; }
+  .lightbox-toolbar {
+    display:flex; align-items:center; justify-content:center; gap:0.75rem;
+    padding:1rem 1.2rem; border-bottom:1px solid var(--border);
+    flex-wrap:wrap; flex-shrink:0;
+  }
+  .lb-btn {
+    display:inline-flex; align-items:center; gap:0.4rem;
+    font-family:var(--mono); font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--text-mid); border:1px solid var(--border2); background:transparent;
+    padding:0.5rem 0.85rem; border-radius:2px; cursor:pointer; text-decoration:none;
+    transition:all 0.2s;
+  }
+  .lb-btn:hover { color:var(--cyan); border-color:var(--cyan); background:var(--cyan-dim); }
+  .lb-zoom-label {
+    font-family:var(--mono); font-size:0.6rem; letter-spacing:0.1em; color:var(--cyan);
+    min-width:3.2em; text-align:center;
+  }
+  .lb-spacer { width:1px; height:20px; background:var(--border2); margin:0 0.4rem; }
+  .lb-close { color:var(--text-dim); border-color:var(--border2); margin-left:auto; }
+  .lightbox-stage {
+    flex:1; overflow:auto; display:flex; align-items:flex-start; justify-content:center;
+    padding:2.5rem;
+  }
+  #lightbox-canvas {
+    box-shadow:0 4px 60px rgba(0,0,0,0.6);
+    transform-origin: top center;
+    transition: transform 0.15s ease;
+    flex-shrink:0;
+  }
+  .lb-loading {
+    margin:auto; display:flex; flex-direction:column; align-items:center; gap:1rem;
+    font-family:var(--mono); font-size:0.62rem; letter-spacing:0.15em; text-transform:uppercase;
+    color:rgba(0,220,180,0.6);
+  }
+
   /* Footer */
   footer {
     position:relative; z-index:1;
@@ -263,11 +347,20 @@
   /* MOBILE: stack layout */
   @media (max-width:900px) {
     nav { padding:0.9rem 1.2rem; }
-    .cert-viewer { grid-template-columns:1fr; padding:1.5rem 1.2rem 3rem; gap:2rem; }
-    .cert-list-panel { padding-right:0; border-right:none; border-bottom:1px solid var(--border2); padding-bottom:1.5rem; }
+    .cert-viewer { grid-template-columns:1fr; padding:1.5rem 1.2rem 3rem; gap:0; }
+    .cert-viewer.sidebar-hidden { grid-template-columns:1fr; }
+    .cert-list-panel {
+      padding-right:0; border-right:none; border-bottom:1px solid var(--border2);
+      padding-bottom:1.5rem; margin-bottom:1.5rem; max-height:280px; overflow-y:auto;
+    }
+    .cert-viewer.sidebar-hidden .cert-list-panel { max-height:0; margin-bottom:0; padding-bottom:0; border-bottom:none; }
     .cert-detail { padding-left:0; }
+    .cert-viewer.sidebar-hidden .cert-detail { padding-left:0; }
+    .nav-back span, .nav-toggle-list span.label { display:none; }
     footer { padding:1.5rem 1.2rem; flex-direction:column; gap:0.5rem; }
     .cert-embed-wrap { min-height:280px; }
+    .lightbox-toolbar { justify-content:flex-start; }
+    .lb-close { margin-left:0; order:99; width:100%; justify-content:center; }
   }
 </style>
 </head>
@@ -279,12 +372,38 @@
     <div class="nav-logo-mark">ADLN</div>
     <div class="nav-logo-text"><span>arriane</span>.dev</div>
   </a>
-  <a class="nav-back" href="index.html">Back to Portfolio</a>
+  <div class="nav-right">
+    <button class="nav-toggle-list" id="sidebarToggleBtn" title="Show or hide the certificate list">
+      <span id="sidebarToggleIcon">☰</span><span class="label" id="sidebarToggleLabel">Hide List</span>
+    </button>
+    <a class="nav-back" href="index.html"><span>Back to Portfolio</span></a>
+  </div>
 </nav>
 
 <main id="main">
   <!-- Content injected by JS -->
 </main>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-toolbar">
+    <button class="lb-btn" data-action="zoom-out" title="Zoom out">−</button>
+    <span class="lb-zoom-label" id="lbZoomLabel">100%</span>
+    <button class="lb-btn" data-action="zoom-in" title="Zoom in">+</button>
+    <button class="lb-btn" data-action="reset" title="Reset zoom">Reset</button>
+    <div class="lb-spacer"></div>
+    <a class="lb-btn" id="lbDownload" download title="Download PDF">⭳ Download</a>
+    <button class="lb-btn" data-action="print" title="Open for printing">🖶 Print</button>
+    <button class="lb-btn lb-close" data-action="close" title="Close (Esc)">✕ Close</button>
+  </div>
+  <div class="lightbox-stage" id="lightboxStage">
+    <div class="lb-loading" id="lbLoading">
+      <div class="cv-spinner"></div>
+      <span>Rendering certificate...</span>
+    </div>
+    <canvas id="lightbox-canvas" style="display:none;"></canvas>
+  </div>
+</div>
 
 <footer>
   <div class="footer-brand"><span>arriane</span>.dev // ADLN</div>
@@ -334,13 +453,36 @@
     },
   ];
 
-  // Flatten for quick lookup
+  // Flatten for quick lookup + prev/next navigation
   const CERTS_BY_ID = {};
-  CERT_GROUPS.forEach(g => g.certs.forEach(c => CERTS_BY_ID[c.id] = { ...c, org: g.org, pdf: c.id + '.pdf' }));
+  const FLAT_CERTS = [];
+  CERT_GROUPS.forEach(g => g.certs.forEach(c => {
+    const full = { ...c, org: g.org, pdf: c.id + '.pdf' };
+    CERTS_BY_ID[c.id] = full;
+    FLAT_CERTS.push(full);
+  }));
 
   function escHtml(s) {
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
+
+  // ─── Sidebar collapse (persisted) ──────────────────────────────────────────
+  const SIDEBAR_KEY = 'certViewerSidebarHidden';
+  function isSidebarHidden() { return localStorage.getItem(SIDEBAR_KEY) === '1'; }
+  function setSidebarHidden(hidden) {
+    localStorage.setItem(SIDEBAR_KEY, hidden ? '1' : '0');
+    const viewer = document.querySelector('.cert-viewer');
+    if (viewer) viewer.classList.toggle('sidebar-hidden', hidden);
+    const icon  = document.getElementById('sidebarToggleIcon');
+    const label = document.getElementById('sidebarToggleLabel');
+    const btn   = document.getElementById('sidebarToggleBtn');
+    if (icon)  icon.textContent  = hidden ? '☰' : '✕';
+    if (label) label.textContent = hidden ? 'Show List' : 'Hide List';
+    if (btn)   btn.classList.toggle('is-hidden', hidden);
+  }
+  document.getElementById('sidebarToggleBtn').addEventListener('click', () => {
+    setSidebarHidden(!isSidebarHidden());
+  });
 
   // ─── Build sidebar HTML ───────────────────────────────────────────────────
   function buildSidebar(activeId) {
@@ -363,7 +505,7 @@
     return html;
   }
 
-  // ─── Render PDF to canvas ─────────────────────────────────────────────────
+  // ─── Render PDF to main canvas ──────────────────────────────────────────────
   async function renderCert(pdfUrl) {
     const canvas  = document.getElementById('cert-canvas');
     const loading = document.getElementById('cvLoading');
@@ -389,6 +531,71 @@
     }
   }
 
+  // ─── Lightbox: high-res render + zoom/pan/download/print ──────────────────
+  let lbZoom = 1;
+  let lbRenderedFor = null;
+
+  function applyLbZoom() {
+    const canvas = document.getElementById('lightbox-canvas');
+    canvas.style.transform = `scale(${lbZoom})`;
+    document.getElementById('lbZoomLabel').textContent = Math.round(lbZoom * 100) + '%';
+  }
+
+  async function renderLightbox(cert) {
+    const canvas  = document.getElementById('lightbox-canvas');
+    const loading = document.getElementById('lbLoading');
+    if (lbRenderedFor === cert.id) { return; } // already rendered for this cert
+    loading.style.display = 'flex';
+    canvas.style.display  = 'none';
+    try {
+      const pdf      = await pdfjsLib.getDocument(cert.pdf).promise;
+      const page     = await pdf.getPage(1);
+      const vp0      = page.getViewport({ scale: 1 });
+      const dpr      = Math.min(window.devicePixelRatio || 1, 2);
+      const targetW  = Math.min(1600, window.innerWidth * 0.9) * dpr;
+      const scale    = targetW / vp0.width;
+      const viewport = page.getViewport({ scale });
+      canvas.width   = viewport.width;
+      canvas.height  = viewport.height;
+      canvas.style.width  = (viewport.width / dpr) + 'px';
+      canvas.style.height = 'auto';
+      await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+      lbRenderedFor = cert.id;
+      loading.style.display = 'none';
+      canvas.style.display  = 'block';
+    } catch (e) {
+      loading.innerHTML = `<span style="color:rgba(0,220,180,0.5);font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;text-align:center;">Could not render PDF.<br>Try downloading instead.</span>`;
+    }
+  }
+
+  function openLightbox(cert) {
+    lbZoom = 1;
+    applyLbZoom();
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lbDownload').href = cert.pdf;
+    document.getElementById('lbDownload').setAttribute('download', cert.title + '.pdf');
+    document.getElementById('lightbox').dataset.currentPdf = cert.pdf;
+    renderLightbox(cert);
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('lightbox').addEventListener('click', (e) => {
+    const action = e.target.closest('[data-action]')?.dataset.action;
+    if (!action) return;
+    if (action === 'close')    closeLightbox();
+    if (action === 'zoom-in')  { lbZoom = Math.min(3, +(lbZoom + 0.25).toFixed(2)); applyLbZoom(); }
+    if (action === 'zoom-out') { lbZoom = Math.max(0.5, +(lbZoom - 0.25).toFixed(2)); applyLbZoom(); }
+    if (action === 'reset')    { lbZoom = 1; applyLbZoom(); }
+    if (action === 'print') {
+      const pdfUrl = document.getElementById('lightbox').dataset.currentPdf;
+      if (pdfUrl) window.open(pdfUrl, '_blank');
+    }
+  });
+
   // ─── Copy link ────────────────────────────────────────────────────────────
   function copyLink() {
     navigator.clipboard.writeText(window.location.href).then(() => {
@@ -398,6 +605,11 @@
       btn.style.color = 'var(--cyan)'; btn.style.borderColor = 'var(--cyan)';
       setTimeout(() => { btn.innerHTML = orig; btn.style.color=''; btn.style.borderColor=''; }, 2000);
     });
+  }
+
+  function navigateTo(id) {
+    if (!id) return;
+    window.location.href = 'cert-viewer.html?id=' + id;
   }
 
   // ─── Main render ─────────────────────────────────────────────────────────
@@ -412,9 +624,9 @@
     if (!cert) {
       main.innerHTML = `
         <div style="flex:1;display:flex;flex-direction:column;">
-          <div style="display:grid;grid-template-columns:280px 1fr;max-width:1300px;width:100%;margin:0 auto;padding:3rem;gap:0;flex:1;">
+          <div class="cert-viewer" style="max-width:1300px;width:100%;margin:0 auto;padding:3rem;">
             ${buildSidebar(null)}
-            <div class="cert-detail" style="padding-left:2.5rem;display:flex;align-items:center;justify-content:center;">
+            <div class="cert-detail" style="display:flex;align-items:center;justify-content:center;">
               <div class="not-found">
                 <div class="not-found-code">—</div>
                 <div class="not-found-msg" style="margin-bottom:0.5rem;">Select a certificate from the list</div>
@@ -422,10 +634,14 @@
             </div>
           </div>
         </div>`;
+      setSidebarHidden(isSidebarHidden());
       return;
     }
 
     const extUrl = cert.extUrl || null;
+    const flatIdx = FLAT_CERTS.findIndex(c => c.id === id);
+    const prevCert = flatIdx > 0 ? FLAT_CERTS[flatIdx - 1] : null;
+    const nextCert = flatIdx >= 0 && flatIdx < FLAT_CERTS.length - 1 ? FLAT_CERTS[flatIdx + 1] : null;
 
     main.innerHTML = `
       <div class="cert-viewer">
@@ -439,15 +655,23 @@
             <span style="color:var(--text-mid)">${escHtml(cert.title)}</span>
           </div>
           <div class="cert-header">
-            <div class="cert-org-label">${escHtml(cert.org)}</div>
-            <div class="cert-title">${escHtml(cert.title)}</div>
-            <div class="cert-meta">
-              <div class="cert-meta-item"><div class="cert-meta-dot"></div><span>${escHtml(cert.date)}</span></div>
-              <div class="cert-meta-item"><div class="cert-meta-dot"></div><span>ID // ${escHtml(id)}</span></div>
+            <div>
+              <div class="cert-org-label">${escHtml(cert.org)}</div>
+              <div class="cert-title">${escHtml(cert.title)}</div>
+              <div class="cert-meta">
+                <div class="cert-meta-item"><div class="cert-meta-dot"></div><span>${escHtml(cert.date)}</span></div>
+                <div class="cert-meta-item"><div class="cert-meta-dot"></div><span>ID // ${escHtml(id)}</span></div>
+                <div class="cert-meta-item"><span>${flatIdx + 1} of ${FLAT_CERTS.length}</span></div>
+              </div>
+            </div>
+            <div class="cert-pager">
+              <button class="pager-btn${prevCert ? '' : ' disabled'}" id="prevCertBtn" title="${prevCert ? escHtml(prevCert.title) : ''}">‹ Prev</button>
+              <button class="pager-btn${nextCert ? '' : ' disabled'}" id="nextCertBtn" title="${nextCert ? escHtml(nextCert.title) : ''}">Next ›</button>
             </div>
           </div>
           <div class="cert-embed-wrap" id="embedWrap">
             <div class="corner-tl"></div>
+            <div class="cert-expand-hint" id="expandHintBtn">⤢ Expand &amp; Zoom</div>
             <div class="cv-loading" id="cvLoading">
               <div class="cv-spinner"></div>
               <span>Rendering certificate...</span>
@@ -459,11 +683,33 @@
               ? `<a class="cert-action-btn cert-action-secondary" href="${extUrl}" target="_blank" rel="noopener">&#x2197; View on ${escHtml(cert.org.split(' ')[0])}</a>`
               : `<a class="cert-action-btn cert-action-secondary" href="${cert.pdf}" target="_blank" rel="noopener">&#x2197; Open PDF</a>`
             }
+            <button class="cert-action-btn cert-action-ghost" id="expandActionBtn">⤢ Expand &amp; Zoom</button>
             <button class="cert-action-btn cert-action-ghost" onclick="copyLink()">&#x29C9; Copy Link</button>
             <a class="cert-action-btn cert-action-ghost" href="index.html#certifications">← Portfolio</a>
           </div>
         </div>
       </div>`;
+
+    // Wire up sidebar collapse state on the freshly-injected .cert-viewer
+    setSidebarHidden(isSidebarHidden());
+
+    // Pager buttons
+    if (prevCert) document.getElementById('prevCertBtn').addEventListener('click', () => navigateTo(prevCert.id));
+    if (nextCert) document.getElementById('nextCertBtn').addEventListener('click', () => navigateTo(nextCert.id));
+
+    // Expand / lightbox triggers
+    document.getElementById('expandHintBtn').addEventListener('click', () => openLightbox(cert));
+    document.getElementById('expandActionBtn').addEventListener('click', () => openLightbox(cert));
+    document.getElementById('cert-canvas').addEventListener('click', () => openLightbox(cert));
+
+    // Keyboard shortcuts: Esc closes lightbox, ←/→ navigate between certs
+    document.addEventListener('keydown', (e) => {
+      const lb = document.getElementById('lightbox');
+      if (e.key === 'Escape' && lb.classList.contains('open')) { closeLightbox(); return; }
+      if (lb.classList.contains('open')) return; // don't navigate certs while lightbox is open
+      if (e.key === 'ArrowLeft'  && prevCert) navigateTo(prevCert.id);
+      if (e.key === 'ArrowRight' && nextCert) navigateTo(nextCert.id);
+    });
 
     await renderCert(cert.pdf);
   })();
