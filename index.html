@@ -262,13 +262,14 @@
 
   .hero-roles { margin:2rem 0; min-height:2.4rem; }
   .role-typewriter-wrap {
-    display:inline-flex; align-items:center; gap:0;
+    display:inline-flex; align-items:baseline; gap:0;
     font-family:var(--mono); font-size:0.72rem; letter-spacing:0.14em;
-    text-transform:uppercase;
+    text-transform:uppercase; line-height:1;
     background:var(--surface); border:1px solid var(--border);
     padding:0.45rem 1rem; border-radius:2px;
     position:fixed; bottom:1.5rem; left:5rem; z-index:150;
-    overflow:hidden;
+    width:fit-content; max-width:min(60vw, 420px);
+    flex-wrap:wrap;
     box-shadow:0 4px 24px rgba(0,0,0,0.5), 0 0 16px rgba(0,220,180,0.06);
   }
   .role-typewriter-wrap::before {
@@ -277,21 +278,21 @@
     opacity:0.5;
   }
   @media(max-width:768px){
-    .role-typewriter-wrap { left:1rem; right:1rem; bottom:1rem; }
+    .role-typewriter-wrap { left:1rem; bottom:1rem; max-width:calc(100vw - 2rem); }
   }
   .role-prefix {
     color:var(--text-dim); margin-right:0.5em; flex-shrink:0;
   }
   .role-typed {
     color:var(--cyan);
-    min-width:1ch;
+    min-width:1ch; line-height:1;
   }
   .role-cursor {
     display:inline-block; width:2px; height:1em;
     background:var(--cyan); margin-left:2px;
-    vertical-align:middle;
     box-shadow:0 0 8px var(--cyan);
     animation:cursorBlink 0.75s step-end infinite;
+    align-self:baseline;
   }
   @keyframes cursorBlink { 0%,100%{opacity:1} 50%{opacity:0} }
 
@@ -1568,14 +1569,14 @@
     <div class="proj-card" data-reveal="up">
       <div class="proj-thumb">
         <div class="proj-thumb-bg"></div>
-        <div class="proj-thumb-code">TPL</div>
-        <span class="proj-type">Template</span>
-        <div class="proj-status"><div class="status-dot"></div> Available</div>
+        <div class="proj-thumb-code">NT</div>
+        <span class="proj-type">Website</span>
+        <div class="proj-status"><div class="status-dot"></div> Live</div>
       </div>
       <div class="proj-body">
-        <div class="proj-name">NexGenix Template</div>
-        <div class="proj-desc">A ready-to-deploy website template commonly requested by NGCS clients. Clean layout, responsive design, and easy-to-customize structure — built for local F&amp;B and lifestyle businesses.</div>
-        <a href="https://nexgenixcreativesolutions.github.io/cafe-template" target="_blank" rel="noopener" class="proj-link">&#x2197; Preview</a>
+        <div class="proj-name">Nostalgic Trails</div>
+        <div class="proj-desc">A dark, cinematic multi-page site for a documentary and events photography studio — weddings, debuts, self-portraits, and infant sessions. Features a moody amber-and-sage palette and a custom CSS 3D flipbook gallery.</div>
+        <a href="https://nexgenixcreativesolutions.github.io/nostalgic-trails/" target="_blank" rel="noopener" class="proj-link">&#x2197; View Site</a>
       </div>
     </div>
   </div>
